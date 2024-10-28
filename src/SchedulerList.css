@@ -1,0 +1,85 @@
+.scheduler-list {
+  font-family: Arial, sans-serif;
+  padding: 1em;
+  max-width: 400px;
+}
+
+.scheduler-list header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.scheduler-list h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.add-button {
+  padding: 0.5em 1em;
+  font-size: 0.9em;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 0.8em;
+  margin-bottom: 0.5em;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.scheduler-info p {
+  margin: 0.2em 0;
+  font-size: 0.9em;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5em;
+}
+
+.edit-button,
+.delete-button {
+  padding: 0.4em 0.6em;
+  font-size: 0.9em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #218838;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}

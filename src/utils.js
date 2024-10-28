@@ -1,20 +1,20 @@
-console.log("chrome 2", chrome);
+console.log("chrome? 2", chrome);
 export const saveSchedulers = (schedulers) => {
-  chrome.storage.sync.set({ schedulers });
+  chrome?.storage?.sync?.set?.({ schedulers });
 };
 
 // export const createAlarm = (scheduler) => {
 //   console.log("createAlarm called", scheduler);
 //   const delay = calculateDelay(scheduler);
 //   console.log("***************createAlarmdelay", delay, scheduler.id);
-//   chrome.alarms.create(scheduler.id, { delayInMinutes: delay / 60000 });
+//   chrome?.alarms?.create?(scheduler.id, { delayInMinutes: delay / 60000 });
 // };
 
 // export const removeAlarm = (scheduler) => {
 //   console.log("createAlarm called", scheduler);
 //   const delay = calculateDelay(scheduler);
 //   console.log("***************createAlarmdelay", delay, scheduler.id);
-//   chrome.alarms.create(scheduler.id, { delayInMinutes: delay / 60000 });
+//   chrome?.alarms?.create?(scheduler.id, { delayInMinutes: delay / 60000 });
 // };
 
 // const calculateDelay = (scheduler) => {
@@ -27,7 +27,7 @@ export const saveSchedulers = (schedulers) => {
 
 export const getSchedulers = () =>
   new Promise((resolve) => {
-    chrome.storage.sync.get("schedulers", (data) =>
+    chrome?.storage?.sync?.get?.("schedulers", (data) =>
       resolve(data.schedulers || [])
     );
   });

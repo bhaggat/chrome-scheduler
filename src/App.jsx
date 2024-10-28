@@ -5,7 +5,10 @@ import { getSchedulers, saveSchedulers } from "./utils";
 
 export default function App() {
   const [schedulers, setSchedulers] = useState([]);
-  const [selectedScheduler, setSelectedScheduler] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  console.log("showModal", showModal);
+  const handleOpenModal = (s) => setShowModal(s);
+  const handleCloseModal = () => setShowModal(null);
 
   useEffect(() => {
     getSchedulers().then(setSchedulers);
@@ -31,12 +34,13 @@ export default function App() {
       <SchedulerList
         schedulers={schedulers}
         onDelete={deleteScheduler}
-        onEdit={(s) => setSelectedScheduler(s)}
+        onEdit={handleOpenModal}
       />
       <SchedulerForm
-        scheduler={selectedScheduler}
+        show={!!showModal}
+        scheduler={showModal}
         onSubmit={addOrUpdateScheduler}
-        onCancel={() => setSelectedScheduler(null)}
+        onCancel={handleCloseModal}
       />
     </div>
   );

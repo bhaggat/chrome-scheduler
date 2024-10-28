@@ -1,4 +1,4 @@
-chrome.runtime.onInstalled.addListener(() => {
+chrome.runtime?.onInstalled?.addListener?.(() => {
   console.log("Extension installed!! src 5");
 });
 
