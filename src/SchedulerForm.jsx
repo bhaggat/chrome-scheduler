@@ -53,18 +53,6 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
           autoFocus={true}
           onChange={(e) => setUrl(e.target.value)}
         />
-        <input
-          type="datetime-local"
-          placeholder="After Time"
-          value={afterTime}
-          onChange={(e) => setAfterTime(e.target.value)}
-        />
-        <input
-          type="datetime-local"
-          placeholder="Before Time"
-          value={beforeTime}
-          onChange={(e) => setBeforeTime(e.target.value)}
-        />
         <select value={type} onChange={(e) => setType(e.target.value)}>
           <option>Daily</option>
           <option>Weekly</option>
@@ -78,6 +66,18 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
           <option>Everytime on chrome open</option>
           <option>Once per day</option>
         </select>
+        <input
+          type="datetime-local"
+          placeholder="After Time"
+          value={afterTime}
+          onChange={(e) => setAfterTime(e.target.value)}
+        />
+        <input
+          type="datetime-local"
+          placeholder="Before Time"
+          value={beforeTime}
+          onChange={(e) => setBeforeTime(e.target.value)}
+        />
         <div className="footer">
           <button onClick={handleSubmit}>Save</button>
           <button onClick={onCancel}>Cancel</button>

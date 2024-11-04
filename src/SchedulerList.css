@@ -15,6 +15,12 @@
   margin: 0;
   font-size: 1.5em;
 }
+.scheduler-info {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 1;
+  overflow-wrap: anywhere;
+}
 
 .add-button {
   padding: 0.5em 1em;
