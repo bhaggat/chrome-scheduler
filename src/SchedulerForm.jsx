@@ -1,20 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import "./SchedulerForm.css";
+import { isDev } from "./content";
 
-export default function SchedulerForm({ scheduler, onSubmit, onCancel, show }) {
-  const [url, setUrl] = useState("https://www.webosmotic.com");
-  const [afterTime, setAfterTime] = useState("2024-10-28T16:09");
-  const [beforeTime, setBeforeTime] = useState("2024-10-28T16:10");
+export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
+  const [url, setUrl] = useState("");
+  const [afterTime, setAfterTime] = useState("");
+  const [beforeTime, setBeforeTime] = useState("");
   const [type, setType] = useState("Daily");
   const [triggerType, setTriggerType] = useState("Everytime");
 
-  useEffect(() => {
-    if (scheduler) {
+  useLayoutEffect(() => {
+    if (Object.keys(scheduler)?.length) {
       setUrl(scheduler.url);
       setAfterTime(scheduler.afterTime);
       setBeforeTime(scheduler.beforeTime);
       setType(scheduler.type);
       setTriggerType(scheduler.triggerType);
+    } else {
+      if (isDev) {
+        setUrl("https://www.webosmotic.com");
+      } else {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          const currentTab = tabs[0];
+          setUrl(currentTab.url);
+        });
+      }
     }
   }, [scheduler]);
 
@@ -29,8 +39,6 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel, show }) {
     });
   };
 
-  if (!show) return null;
-
   return (
     <div className="modal-overlay">
       <div className="modal">
@@ -42,6 +50,7 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel, show }) {
           type="url"
           placeholder="URL"
           value={url}
+          autoFocus={true}
           onChange={(e) => setUrl(e.target.value)}
         />
         <input
@@ -66,11 +75,13 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel, show }) {
           value={triggerType}
           onChange={(e) => setTriggerType(e.target.value)}
         >
-          <option>Everytime</option>
+          <option>Everytime on chrome open</option>
           <option>Once per day</option>
         </select>
-        <button onClick={handleSubmit}>Save</button>
-        <button onClick={onCancel}>Cancel</button>
+        <div className="footer">
+          <button onClick={handleSubmit}>Save</button>
+          <button onClick={onCancel}>Cancel</button>
+        </div>
       </div>
     </div>
   );

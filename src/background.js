@@ -1,5 +1,5 @@
 chrome.runtime?.onInstalled?.addListener?.(() => {
-  console.log("Extension installed!! src 5");
+  console.log("Extension installed!! src 6");
 });
 
 export const getSchedulers = () =>

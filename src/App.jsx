@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import SchedulerForm from "./SchedulerForm";
 import SchedulerList from "./SchedulerList";
 import { getSchedulers, saveSchedulers } from "./utils";
+import "./App.css";
 
 export default function App() {
   const [schedulers, setSchedulers] = useState([]);
@@ -21,6 +22,7 @@ export default function App() {
       : [...schedulers, { ...scheduler, id: Date.now().toString() }];
     setSchedulers(updated);
     saveSchedulers(updated);
+    handleCloseModal();
   };
 
   const deleteScheduler = (id) => {
@@ -36,12 +38,13 @@ export default function App() {
         onDelete={deleteScheduler}
         onEdit={handleOpenModal}
       />
-      <SchedulerForm
-        show={!!showModal}
-        scheduler={showModal}
-        onSubmit={addOrUpdateScheduler}
-        onCancel={handleCloseModal}
-      />
+      {!!showModal && (
+        <SchedulerForm
+          scheduler={showModal}
+          onSubmit={addOrUpdateScheduler}
+          onCancel={handleCloseModal}
+        />
+      )}
     </div>
   );
 }
