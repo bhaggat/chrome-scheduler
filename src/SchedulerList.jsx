@@ -1,5 +1,6 @@
 import React from "react";
 import "./SchedulerList.css";
+import { version } from "./content";
 
 export default function SchedulerList({ schedulers, onDelete, onEdit }) {
   return (
@@ -20,27 +21,53 @@ export default function SchedulerList({ schedulers, onDelete, onEdit }) {
             <li key={scheduler.id} className="list-item">
               <div className="scheduler-info">
                 <p>
-                  <strong>URL:</strong> {scheduler.url}
+                  <a
+                    href={scheduler.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {scheduler.title}
+                  </a>
                 </p>
-                <p>
-                  <strong>Type:</strong> {scheduler.type}
-                </p>
-                <p>
-                  <strong>Trigger:</strong> {scheduler.triggerType}
-                </p>
+                <div className="chips">
+                  <span className="chip">{scheduler.type}</span>
+                  <span className="chip">
+                    {scheduler.triggerType === "Everytime on chrome open"
+                      ? "Everytime"
+                      : scheduler.triggerType}
+                  </span>
+                </div>
               </div>
               <div className="action-buttons">
                 <button
                   className="edit-button"
                   onClick={() => onEdit(scheduler)}
+                  aria-label="Edit"
                 >
-                  Edit
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    fill="currentColor"
+                  >
+                    <path d="M3 17.25V21h3.75l11-11.03-3.75-3.75L3 17.25zm17.71-10.04a1.004 1.004 0 0 0 0-1.42l-2.34-2.34a1.004 1.004 0 0 0-1.42 0L15.13 4.71l3.75 3.75 1.83-1.83z" />
+                  </svg>
                 </button>
                 <button
                   className="delete-button"
                   onClick={() => onDelete(scheduler.id)}
+                  aria-label="Delete"
                 >
-                  Delete
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    fill="currentColor"
+                  >
+                    <path d="M16 9v10H8V9h8m-1.5-6h-5L9 4H4v2h16V4h-5l-1.5-1z" />
+                  </svg>
                 </button>
               </div>
             </li>
@@ -49,6 +76,7 @@ export default function SchedulerList({ schedulers, onDelete, onEdit }) {
       ) : (
         <div className="empty">No schedulers added yet</div>
       )}
+      <div className="version">Version {version}</div>
     </div>
   );
 }

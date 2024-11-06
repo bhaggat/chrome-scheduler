@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import SchedulerForm from "./SchedulerForm";
 import SchedulerList from "./SchedulerList";
-import { getSchedulers, saveSchedulers } from "./utils";
 import "./App.css";
+import { getSchedulers, saveSchedulers } from "./utils";
 
 export default function App() {
   const [schedulers, setSchedulers] = useState([]);
@@ -16,7 +16,6 @@ export default function App() {
   }, []);
 
   const addOrUpdateScheduler = (scheduler) => {
-    console.log("addOrUpdateScheduler__________", scheduler);
     const updated = scheduler.id
       ? schedulers.map((s) => (s.id === scheduler.id ? scheduler : s))
       : [...schedulers, { ...scheduler, id: Date.now().toString() }];

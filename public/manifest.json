@@ -2,12 +2,17 @@
   "manifest_version": 3,
   "name": "Scheduler Extension",
   "version": "1.0",
-  "permissions": ["storage", "alarms", "tabs"],
+  "permissions": ["notifications", "storage", "alarms", "idle", "tabs"],
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
   "action": {
     "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }
