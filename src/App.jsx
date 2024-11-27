@@ -7,7 +7,6 @@ import { getSchedulers, saveSchedulers } from "./utils";
 export default function App() {
   const [schedulers, setSchedulers] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  console.log("showModal", showModal);
   const handleOpenModal = (s) => setShowModal(s);
   const handleCloseModal = () => setShowModal(null);
 

@@ -99,7 +99,9 @@
 .chips {
   display: flex;
   gap: 5px;
+  flex-wrap: wrap;
 }
+
 .chip {
   display: inline-block;
   padding: 4px 8px;
@@ -147,4 +149,14 @@
   margin-top: 10px;
   text-align: center;
   color: #777;
+}
+
+.formRow label {
+  margin-bottom: 3px;
+  display: block;
+}
+
+.timepicker {
+  display: flex;
+  gap: 10px;
 }

@@ -1,8 +1,10 @@
 import React from "react";
 import "./SchedulerList.css";
 import { version } from "./content";
+import { getLabel } from "./utils";
 
 export default function SchedulerList({ schedulers, onDelete, onEdit }) {
+  // console.log("schedulers", schedulers);
   return (
     <div className="scheduler-list">
       <header>
@@ -30,7 +32,9 @@ export default function SchedulerList({ schedulers, onDelete, onEdit }) {
                   </a>
                 </p>
                 <div className="chips">
-                  <span className="chip">{scheduler.type}</span>
+                  <span className="chip">
+                    {getLabel(scheduler.date, scheduler.type)}
+                  </span>
                   <span className="chip">
                     {scheduler.triggerType === "Everytime on chrome open"
                       ? "Everytime"
