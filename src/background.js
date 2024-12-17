@@ -1,16 +1,16 @@
-function sendNotification(title, message) {
-  console.log("send notification", { title, message });
-  chrome.notifications.create({
-    type: "basic",
-    title: title,
-    message: message,
-    iconUrl: "icons/icon48.png", // Your icon path here
-    priority: 2,
-  });
-}
+// function sendNotification(title, message) {
+//   console.log("send notification", { title, message });
+//   chrome.notifications.create({
+//     type: "basic",
+//     title: title,
+//     message: message,
+//     iconUrl: "icons/icon48.png", // Your icon path here
+//     priority: 2,
+//   });
+// }
 export const getSchedulers = () =>
   new Promise((resolve, reject) => {
-    chrome.storage.sync.get("schedulers", (data) => {
+    chrome.storage.local.get("schedulers", (data) => {
       if (chrome.runtime.lastError) {
         console.error("Failed to get schedulers", chrome.runtime.lastError);
         reject(chrome.runtime.lastError);
@@ -21,7 +21,7 @@ export const getSchedulers = () =>
   });
 
 export const saveSchedulers = (schedulers) => {
-  chrome.storage.sync.set({ schedulers }, () => {
+  chrome.storage.local.set({ schedulers }, () => {
     if (chrome.runtime.lastError) {
       console.error("Failed to save schedulers", chrome.runtime.lastError);
     }
@@ -34,7 +34,7 @@ const checkShouldTrigger = (schedule, isOpen) => {
   const lastTriggeredKey = `lastTriggered_${schedule.id}`;
 
   return new Promise((resolve) => {
-    chrome.storage.sync.get(lastTriggeredKey, (data) => {
+    chrome.storage.local.get(lastTriggeredKey, (data) => {
       const lastTriggered = new Date(data[lastTriggeredKey] || 0);
       const currentTime = now.getHours() * 60 + now.getMinutes();
       const after = afterTime ? parseTime(afterTime) : 0;
@@ -105,7 +105,7 @@ export const checkAndOpenUrl = async (isOpen = false) => {
       if (shouldTrigger) {
         openTab(schedule.url);
         const lastTriggeredKey = `lastTriggered_${schedule.id}`;
-        chrome.storage.sync.set({ [lastTriggeredKey]: now.toISOString() });
+        chrome.storage.local.set({ [lastTriggeredKey]: now.toISOString() });
       }
     }
   } catch (error) {
