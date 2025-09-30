@@ -54,3 +54,7 @@ A modern Chrome extension that automatically opens specific websites at schedule
 - Modern CSS with glassmorphism effects
 - Chrome Extension Manifest V3
 - ESLint for code quality
+
+## Privacy & Legal
+
+- [Privacy Policy](https://bhaggat.github.io/chrome-scheduler/static-hosting/)
