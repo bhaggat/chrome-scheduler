@@ -2,6 +2,12 @@
 
 A modern Chrome extension that automatically opens specific websites at scheduled times. Features daily, weekly, monthly, and yearly scheduling options with beautiful, modern UI.
 
+## 📦 Install from Chrome Web Store
+
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install-blue?logo=google-chrome)](https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl?authuser=0&hl=en-GB)
+
+**Download the extension:** [Scheduled Website Opener](https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl?authuser=0&hl=en-GB)
+
 ## Features
 
 - 🎨 **Modern UI**: Beautiful gradient design with glassmorphism effects
