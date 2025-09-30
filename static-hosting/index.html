@@ -3,56 +3,294 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Privacy Policy - Scheduled Website Opener</title>
+    <title>Scheduled Website Opener - Chrome Extension</title>
+    <meta
+      name="description"
+      content="Automatically open specific websites at scheduled times: daily, weekly, monthly, or custom. Never miss important tasks again!"
+    />
+    <link rel="icon" type="image/png" href="icons/icon16.png" />
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
+      * {
         margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+          "Oxygen", "Ubuntu", "Cantarell", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
         padding: 20px;
       }
-      h1,
-      h2 {
-        color: #333;
+
+      .header {
+        text-align: center;
+        padding: 60px 0;
+        color: white;
       }
-      p {
-        color: #555;
+
+      .header h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .header p {
+        font-size: 1.3rem;
+        margin-bottom: 40px;
+        opacity: 0.9;
+      }
+
+      .cta-button {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 15px 30px;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .cta-button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .main-content {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 60px;
+        margin: 40px 0;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        margin: 60px 0;
+      }
+
+      .feature {
+        text-align: center;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+      }
+
+      .feature h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #2d3748;
+      }
+
+      .feature p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .screenshots {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin: 60px 0;
+      }
+
+      .screenshot {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        border: 2px solid #e9ecef;
+      }
+
+      .screenshot-placeholder {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 40px 0;
+        color: white;
+        opacity: 0.8;
+      }
+
+      .footer-links {
+        margin: 20px 0;
+      }
+
+      .footer-links a {
+        color: white;
+        text-decoration: none;
+        margin: 0 20px;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        opacity: 1;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin: 40px 0;
+      }
+
+      .stat {
+        text-align: center;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 10px;
+      }
+
+      .stat-label {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 2.5rem;
+        }
+
+        .main-content {
+          padding: 30px;
+          margin: 20px 0;
+        }
+
+        .features {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>Privacy Policy for Scheduled Website Opener</h1>
-    <p>
-      This extension helps users schedule websites to open at specific times
-      (daily, weekly, monthly, etc.).
-    </p>
+    <div class="container">
+      <header class="header">
+        <h1>🚀 Scheduled Website Opener</h1>
+        <p>
+          Never miss important tasks again. Automatically open websites at your
+          desired times.
+        </p>
+        <a
+          href="https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl"
+          class="cta-button"
+          target="_blank"
+        >
+          Install Extension
+        </a>
+      </header>
 
-    <h2>What Data We Collect</h2>
-    <p>
-      We do not collect, store, or share any personal information. All data
-      related to your schedule is stored locally in your browser using the
-      Chrome <code>storage</code> API.
-    </p>
+      <div class="main-content">
+        <h2 style="text-align: center; margin-bottom: 40px; color: #2d3748">
+          Why Choose Our Extension?
+        </h2>
 
-    <h2>Permissions Used</h2>
-    <ul>
-      <li><strong>Storage:</strong> To store the schedule list.</li>
-      <li><strong>Alarms:</strong> To trigger the website open actions.</li>
-      <li>
-        <strong>Tabs:</strong> To open scheduled websites in new browser tabs.
-      </li>
-    </ul>
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">⏰</div>
+            <h3>Flexible Scheduling</h3>
+            <p>
+              Set specific times to open websites automatically—daily, weekly,
+              monthly, or annually. Customize your schedule to fit your needs.
+            </p>
+          </div>
 
-    <h2>How Your Data is Handled</h2>
-    <p>
-      Your schedule data stays entirely on your computer. We do not send any
-      data to external servers.
-    </p>
+          <div class="feature">
+            <div class="feature-icon">🔒</div>
+            <h3>100% Private</h3>
+            <p>
+              Your data stays on your device. We don't collect, store, or share
+              any personal information. Complete privacy guaranteed.
+            </p>
+          </div>
 
-    <h2>Contact</h2>
-    <p>
-      If you have any questions, please contact us at:
-      <strong>dhruvbhagat98@gmail.com</strong>.
-    </p>
+          <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <h3>Easy to Use</h3>
+            <p>
+              Add websites to your schedule in just a few clicks. Intuitive
+              interface makes scheduling effortless and efficient.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">💾</div>
+            <h3>Persistent Storage</h3>
+            <p>
+              Your scheduled tasks are saved and won't be lost if you restart
+              your browser. Reliable and consistent performance.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">🎯</div>
+            <h3>Custom Reminders</h3>
+            <p>
+              Schedule actions for websites so you never miss important tasks.
+              Stay organized and productive with automated reminders.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="support.html">Support</a>
+          <a href="mailto:dhruvbhagat98@gmail.com">Contact</a>
+        </div>
+        <p>&copy; 2024 Scheduled Website Opener. All rights reserved.</p>
+      </footer>
+    </div>
   </body>
 </html>

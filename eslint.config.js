@@ -10,22 +10,21 @@ export default [
     files: ["**/*.{js,jsx}"],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        chrome: "readonly",
+      },
       parserOptions: {
         ecmaVersion: "latest",
         ecmaFeatures: { jsx: true },
         sourceType: "module",
       },
     },
-    settings: { react: { version: "18.3" } },
+    settings: { react: { version: "19.1" } },
     plugins: {
       react,
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
-    },
-    env: {
-      browser: true,
-      webextensions: true,
     },
     rules: {
       ...js.configs.recommended.rules,
