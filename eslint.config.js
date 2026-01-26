@@ -39,4 +39,18 @@ export default [
       ],
     },
   },
+  // Node.js environment for scripts
+  {
+    files: ["scripts/**/*.js"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: {
+        ...globals.node,
+      },
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+    },
+  },
 ];

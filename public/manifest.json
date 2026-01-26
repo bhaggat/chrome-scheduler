@@ -1,8 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Scheduled Website Opener",
-  "version": "2.0.0",
-  "permissions": ["storage", "alarms", "tabs"],
+  "version": "2.0.2",
+  "permissions": [
+    "storage",
+    "alarms",
+    "tabs",
+    "notifications"
+  ],
   "description": "Automatically open specific websites at scheduled times: daily, weekly, monthly, or custom.",
   "background": {
     "service_worker": "background.js",

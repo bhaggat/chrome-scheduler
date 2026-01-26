@@ -2,14 +2,18 @@ import { useState, useEffect } from "react";
 import SchedulerForm from "./SchedulerForm";
 import SchedulerList from "./SchedulerList";
 import "./App.css";
-import { getSchedulers, saveSchedulers } from "./utils";
+import { getSchedulers, saveSchedulers, savePreferences } from "./utils";
+import SettingsForm from "./SettingsForm";
 
 export default function App() {
   const [schedulers, setSchedulers] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   console.log("showModal", showModal);
   const handleOpenModal = (s) => setShowModal(s);
   const handleCloseModal = () => setShowModal(null);
+  const handleOpenSettings = () => setShowSettings(true);
+  const handleCloseSettings = () => setShowSettings(false);
 
   useEffect(() => {
     getSchedulers().then(setSchedulers);
@@ -36,12 +40,22 @@ export default function App() {
         schedulers={schedulers}
         onDelete={deleteScheduler}
         onEdit={handleOpenModal}
+        onOpenSettings={handleOpenSettings}
       />
       {!!showModal && (
         <SchedulerForm
           scheduler={showModal}
           onSubmit={addOrUpdateScheduler}
           onCancel={handleCloseModal}
+        />
+      )}
+      {!!showSettings && (
+        <SettingsForm
+          onSubmit={(p) => {
+            savePreferences(p);
+            handleCloseSettings();
+          }}
+          onCancel={handleCloseSettings}
         />
       )}
     </div>

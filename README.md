@@ -40,6 +40,39 @@ A modern Chrome extension that automatically opens specific websites at schedule
 - `npm run lint` - Run ESLint
 - `npm run preview` - Preview production build
 
+## 🚀 Deployment
+
+### Automated Deployment (Recommended)
+
+Deploy to Chrome Web Store with a single command:
+
+```bash
+npm run deploy
+```
+
+This will automatically:
+
+- ✅ Build your extension
+- 📦 Package it into a zip file
+- 📤 Upload to Chrome Web Store
+- 🚀 Publish the update
+
+**Setup required**: See [DEPLOYMENT.md](./DEPLOYMENT.md) for first-time setup instructions.
+
+**Quick reference**: See [QUICK_DEPLOY.md](./QUICK_DEPLOY.md) for daily usage.
+
+### Manual Publishing
+
+For manual publishing process, see [PUBLISHING.md](./PUBLISHING.md).
+
+### Version Management
+
+```bash
+npm run version:patch  # Bug fixes (2.0.1 → 2.0.2)
+npm run version:minor  # New features (2.0.1 → 2.1.0)
+npm run version:major  # Breaking changes (2.0.1 → 3.0.0)
+```
+
 ## Usage
 
 1. Click the extension icon to open the scheduler

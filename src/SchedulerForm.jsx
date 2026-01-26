@@ -10,6 +10,7 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
   const [type, setType] = useState("Daily");
   const [triggerType, setTriggerType] = useState("Everytime on chrome open");
   const [shouldPin, setShouldPin] = useState(false);
+  const [focusOnOpen, setFocusOnOpen] = useState(true);
 
   useLayoutEffect(() => {
     if (Object.keys(scheduler)?.length) {
@@ -20,17 +21,25 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
       setType(scheduler.type);
       setTriggerType(scheduler.triggerType);
       setShouldPin(scheduler.shouldPin);
+      setFocusOnOpen(
+        typeof scheduler.focusOnOpen === "boolean"
+          ? scheduler.focusOnOpen
+          : true,
+      );
     } else {
       if (isDev) {
-        setTitle("Webosmotic");
-        setUrl("https://www.webosmotic.com");
+        setTitle("Dhruv Portfolio");
+        setUrl("https://bhaggat.github.io/portfolio/");
       } else {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-          const currentTab = tabs[0];
-          setTitle(currentTab.title);
-          setUrl(currentTab.url);
-          setShouldPin(currentTab.pinned);
-        });
+        if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.query) {
+          chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const currentTab = tabs[0];
+            setTitle(currentTab.title || "");
+            setUrl(currentTab.url || "");
+            setShouldPin(currentTab.pinned || false);
+            setFocusOnOpen(true);
+          });
+        }
       }
     }
   }, [scheduler]);
@@ -45,6 +54,7 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
       type,
       triggerType,
       shouldPin,
+      focusOnOpen,
     });
   };
 
@@ -102,12 +112,47 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
           />
           <label htmlFor="should-pin">Should Pin</label>
         </div>
+        <div className="checkbox-container">
+          <input
+            type="checkbox"
+            id="focus-on-open"
+            checked={focusOnOpen}
+            onChange={(e) => setFocusOnOpen(e.target.checked)}
+          />
+          <label htmlFor="focus-on-open">Focus on open</label>
+        </div>
         <div className="footer">
-          <button className="save-button" onClick={handleSubmit}>
-            Save
+          <button
+            className="save-button"
+            onClick={handleSubmit}
+            aria-label="Save"
+            title="Save"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="currentColor"
+            >
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg>
           </button>
-          <button className="cancel-button" onClick={onCancel}>
-            Cancel
+          <button
+            className="cancel-button"
+            onClick={onCancel}
+            aria-label="Cancel"
+            title="Cancel"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="currentColor"
+            >
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+            </svg>
           </button>
         </div>
       </div>
