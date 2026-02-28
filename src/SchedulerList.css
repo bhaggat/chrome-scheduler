@@ -1,5 +1,5 @@
 .scheduler-list {
-  padding: 20px;
+  padding: 16px;
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -50,6 +50,12 @@
   gap: 10px;
 }
 
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .app-logo {
   width: 32px;
   height: 32px;
@@ -62,13 +68,14 @@
 .add-button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
-  padding: 10px 16px;
+  padding: 5px;
   border: none;
   border-radius: 10px;
   font-weight: 600;
   font-size: 13px;
   box-shadow: 0 3px 12px rgba(102, 126, 234, 0.4);
   transition: all 0.3s ease;
+  line-height: 1;
 }
 .add-button:disabled {
   opacity: 0.5;
@@ -84,7 +91,7 @@
 .list,
 .empty {
   min-height: 300px;
-  max-height: 400px;
+  max-height: 450px;
 }
 
 .version,

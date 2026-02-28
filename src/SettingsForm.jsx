@@ -10,6 +10,11 @@ export default function SettingsForm({ onSubmit, onCancel }) {
   );
   const [confirmText, setConfirmText] = useState("Checkout");
   const [dismissText, setDismissText] = useState("Dismiss");
+  const [showLogs, setShowLogs] = useState(false);
+  const [logs, setLogs] = useState([]);
+
+  const isExtension =
+    typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.id;
 
   useEffect(() => {
     getPreferences().then((p) => {
@@ -80,6 +85,63 @@ export default function SettingsForm({ onSubmit, onCancel }) {
           value={dismissText}
           onChange={(e) => setDismissText(e.target.value)}
         />
+
+        {isExtension && (
+          <div className="debug-controls">
+            <button
+              className="test-button"
+              onClick={() => {
+                chrome.runtime.sendMessage(
+                  { action: "TEST_REMINDER" },
+                  (response) => {
+                    if (chrome.runtime.lastError) {
+                      alert("Error: " + chrome.runtime.lastError.message);
+                    } else if (response && !response.success) {
+                      alert("Failed: " + response.error);
+                    }
+                  },
+                );
+              }}
+            >
+              Test Notification
+            </button>
+            <button
+              className="debug-toggle"
+              onClick={() => {
+                const nextState = !showLogs;
+                setShowLogs(nextState);
+                if (nextState) {
+                  chrome.storage.local.get("debugLogs", (data) => {
+                    setLogs(data.debugLogs || []);
+                  });
+                }
+              }}
+            >
+              {showLogs ? "Hide Logs" : "Show Debug Logs"}
+            </button>
+          </div>
+        )}
+
+        {showLogs && (
+          <div className="debug-logs">
+            {logs.length === 0 ? (
+              <div className="log-entry">No logs found</div>
+            ) : (
+              logs
+                .slice()
+                .reverse()
+                .map((log, i) => (
+                  <div key={i} className="log-entry">
+                    <span className="log-time">
+                      {new Date(log.timestamp).toLocaleTimeString()}
+                    </span>
+                    <span className="log-msg">{log.message}</span>
+                    {log.data && <pre>{JSON.stringify(log.data, null, 2)}</pre>}
+                  </div>
+                ))
+            )}
+          </div>
+        )}
 
         <div className="footer">
           <button

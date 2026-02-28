@@ -1,19 +1,92 @@
 import { getSchedulers, getPreferences } from "./utils.js";
 
-// function sendNotification(title, message) {
-//   console.log("send notification", { title, message });
-//   chrome.notifications.create({
-//     type: "basic",
-//     title: title,
-//     message: message,
-//     iconUrl: "icons/icon48.png", // Your icon path here
-//     priority: 2,
-//   });
-// }
+// Cache preferences for synchronous access during critical events
+let cachedPrefs = null;
+
+const refreshPrefs = async () => {
+  try {
+    cachedPrefs = await getPreferences();
+    console.log("Preferences cached:", cachedPrefs);
+  } catch (e) {
+    console.error("Failed to cache preferences:", e);
+  }
+};
+
+// Initialize cache
+refreshPrefs();
+
+// Listen for storage changes to keep cache updated
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === "local" && changes.preferences) {
+    refreshPrefs();
+  }
+});
+
+const logDebug = (message, data = null) => {
+  const timestamp = new Date().toISOString();
+  const logEntry = { timestamp, message, data };
+  console.log("DEBUG LOG:", message, data);
+  
+  // Persist to storage for later inspection
+  chrome.storage.local.get("debugLogs", (result) => {
+    const logs = result.debugLogs || [];
+    logs.push(logEntry);
+    // Keep last 50 logs
+    if (logs.length > 50) logs.shift();
+    chrome.storage.local.set({ debugLogs: logs });
+  });
+};
+
+// Listen for messages from the frontend
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "TEST_REMINDER") {
+    logDebug("Test reminder requested");
+    showCheckoutNotification(cachedPrefs || {}, true)
+      .then(() => sendResponse({ success: true }))
+      .catch((e) => sendResponse({ success: false, error: e.message }));
+    return true; // Keep channel open for async response
+  }
+});
+
+const showCheckoutNotification = async (prefs, isTest = false) => {
+  const notificationId = isTest ? "test-checkout-reminder" : "checkout-reminder";
+  
+  if (!prefs.checkoutReminderEnabled && !isTest) {
+    logDebug("Checkout reminder disabled, skipping.");
+    return;
+  }
+  
+  if (!prefs.checkoutUrl && !isTest) {
+    logDebug("No checkout URL set, skipping.");
+    return;
+  }
+
+  const message = isTest 
+    ? `[TEST] ${prefs.reminderMessage || "Do you want to checkout?"}`
+    : (prefs.reminderMessage || "Do you want to checkout?");
+
+  return new Promise((resolve) => {
+    chrome.notifications.create(notificationId, {
+      type: "basic",
+      iconUrl: "icons/icon48.png",
+      title: isTest ? "Test Reminder" : "Closing Chrome",
+      message: message,
+      priority: 2,
+      requireInteraction: true,
+      buttons: [
+        { title: prefs.confirmButtonText || "Checkout" },
+        { title: prefs.dismissButtonText || "Dismiss" },
+      ],
+    }, (id) => {
+      logDebug("Notification created", { id, isTest });
+      resolve(id);
+    });
+  });
+};
 
 const checkShouldTrigger = (schedule, isOpen) => {
   const now = new Date();
-  const { type, afterTime, beforeTime, triggerType } = schedule;
+  const { type, afterTime, beforeTime, triggerType, scheduledTime } = schedule;
   const lastTriggeredKey = `lastTriggered_${schedule.id}`;
 
   return new Promise((resolve) => {
@@ -25,22 +98,59 @@ const checkShouldTrigger = (schedule, isOpen) => {
 
       const withinTimeWindow = currentTime >= after && currentTime <= before;
 
-      console.log("Determine if this should trigger based on type", {
-        withinTimeWindow,
-        after,
-        before,
-        currentTime,
-        data,
-        lastTriggeredKey,
-        schedule,
-      });
       let shouldOpen = false;
 
-      if (
+      if (triggerType === "On Scheduled time") {
+        const targetTime = scheduledTime ? parseTime(scheduledTime) : 0;
+        // Check if current time is within the same minute as target time
+        const isAtScheduledTime = currentTime === targetTime;
+        
+        console.log(`Checking Schedule ${schedule.id}:`, {
+          title: schedule.title,
+          currentTime,
+          targetTime,
+          isAtScheduledTime,
+          triggerType,
+          lastTriggered: lastTriggered.toLocaleString()
+        });
+
+        // Allow trigger if it's the exact time OR if we just opened Chrome and missed the time (catch-up)
+        // Only catch up if the scheduled time has passed today
+        const isCatchUp = isOpen && currentTime > targetTime;
+
+        if (isAtScheduledTime || isCatchUp) {
+          switch (type) {
+            case "Daily": {
+              const ranToday = now.toDateString() === lastTriggered.toDateString();
+              // If it ran today, only run again if the scheduled time is different (user changed it)
+              if (ranToday) {
+                 const lastTime = lastTriggered.getHours() * 60 + lastTriggered.getMinutes();
+                 shouldOpen = lastTime !== targetTime;
+                 console.log("Daily check:", { ranToday, lastTime, targetTime, shouldOpen });
+              } else {
+                 shouldOpen = true;
+              }
+              break;
+            }
+            case "Weekly":
+              shouldOpen = now - lastTriggered >= 7 * 24 * 60 * 60 * 1000;
+              break;
+            case "Monthly":
+              shouldOpen = 
+                now.getMonth() !== lastTriggered.getMonth() ||
+                now.getFullYear() !== lastTriggered.getFullYear();
+              break;
+            case "Yearly":
+              shouldOpen = now.getFullYear() !== lastTriggered.getFullYear();
+              break;
+          }
+        }
+      } else if (
         (triggerType === "Everytime on chrome open" && isOpen) ||
         (triggerType === "Once per day" &&
-          now - lastTriggered >= 24 * 60 * 60 * 1000)
+          (now - lastTriggered >= 24 * 60 * 60 * 1000 || now.toDateString() !== lastTriggered.toDateString()))
       ) {
+        // Added stricter 'Once per day' check to ensure daily reset works as expected
         switch (type) {
           case "Daily":
             shouldOpen = true;
@@ -57,13 +167,22 @@ const checkShouldTrigger = (schedule, isOpen) => {
         }
       }
 
-      resolve(shouldOpen && withinTimeWindow);
+      resolve(
+        shouldOpen &&
+          (triggerType === "On Scheduled time" ? true : withinTimeWindow)
+      );
     });
   });
 };
 
 const parseTime = (timeStr) => {
   if (!timeStr) return 0;
+  
+  const d = new Date(timeStr);
+  if (!isNaN(d.getTime())) {
+    return d.getHours() * 60 + d.getMinutes();
+  }
+
   const timePart = timeStr.includes("T") ? timeStr.split("T")[1] : timeStr;
   const [hoursStr, minutesStr] = timePart.split(":");
   const hours = parseInt(hoursStr, 10);
@@ -124,62 +243,66 @@ console.log("chrome.runtime", new Date().toISOString(), chrome.runtime);
 chrome.runtime.onStartup?.addListener(() => {
   console.log("Extension has been launched (Chrome started) or reloaded.");
   chrome.alarms.clearAll();
+  chrome.alarms.create("checkSchedulerAlarm", { periodInMinutes: 1 });
   checkAndOpenUrl(true);
 });
 
 chrome.alarms.onAlarm?.addListener((alarm) => {
-  console.log("onAlarm", alarm.name, { alarm });
   if (alarm.name === "checkSchedulerAlarm") {
     checkAndOpenUrl();
   }
 });
 
-const checkoutNotificationPrefix = "checkout-reminder::";
 
-chrome.windows?.onRemoved.addListener(() => {
+
+chrome.windows?.onRemoved.addListener(async (windowId) => {
   try {
-    chrome.windows.getAll({}, async (windows) => {
-      if (windows.length === 0) {
-        const prefs = await getPreferences();
-        if (!prefs.checkoutReminderEnabled || !prefs.checkoutUrl) return;
-
-        const notificationId =
-          checkoutNotificationPrefix + encodeURIComponent(prefs.checkoutUrl);
-        chrome.notifications.create(notificationId, {
-          type: "basic",
-          iconUrl: "icons/icon48.png",
-          title: "Reminder",
-          message: prefs.reminderMessage || "Do you want to checkout?",
-          priority: 2,
-          buttons: [
-            { title: prefs.confirmButtonText || "Checkout" },
-            { title: prefs.dismissButtonText || "Dismiss" },
-          ],
-        });
-      }
+    // Use cached prefs if available, otherwise fetch
+    const prefs = cachedPrefs || await getPreferences();
+    
+    // Check remaining windows
+    const windows = await chrome.windows.getAll({
+      populate: false,
+      windowTypes: ["normal"],
     });
+    
+    logDebug("Window removed", { 
+      closedWindowId: windowId, 
+      remainingCount: windows.length, 
+      prefsEnabled: prefs.checkoutReminderEnabled 
+    });
+
+    // If no normal windows remain
+    if (windows.length === 0) {
+      if (prefs.checkoutReminderEnabled && prefs.checkoutUrl) {
+         await showCheckoutNotification(prefs, false);
+      }
+    }
   } catch (e) {
-    console.error("Error in windows.onRemoved", e);
+    logDebug("Error in windows.onRemoved", e.message);
   }
 });
 
-chrome.notifications?.onButtonClicked.addListener((notificationId, buttonIndex) => {
-  if (!notificationId.startsWith(checkoutNotificationPrefix)) return;
-  if (buttonIndex === 0) {
-    const url = decodeURIComponent(
-      notificationId.slice(checkoutNotificationPrefix.length)
-    );
-    chrome.tabs.create({ url, active: true });
-  } else {
+chrome.notifications?.onButtonClicked.addListener(
+  async (notificationId, buttonIndex) => {
+    if (notificationId !== "checkout-reminder" && notificationId !== "test-checkout-reminder") return;
+    
+    if (buttonIndex === 0) {
+      const prefs = cachedPrefs || await getPreferences();
+      if (prefs.checkoutUrl) {
+        chrome.tabs.create({ url: prefs.checkoutUrl, active: true });
+      }
+    }
     chrome.notifications.clear(notificationId);
   }
-});
+);
 
-chrome.notifications?.onClicked.addListener((notificationId) => {
-  if (!notificationId.startsWith(checkoutNotificationPrefix)) return;
-  const url = decodeURIComponent(
-    notificationId.slice(checkoutNotificationPrefix.length)
-  );
-  chrome.tabs.create({ url, active: true });
+chrome.notifications?.onClicked.addListener(async (notificationId) => {
+  if (notificationId !== "checkout-reminder" && notificationId !== "test-checkout-reminder") return;
+  
+  const prefs = cachedPrefs || await getPreferences();
+  if (prefs.checkoutUrl) {
+    chrome.tabs.create({ url: prefs.checkoutUrl, active: true });
+  }
   chrome.notifications.clear(notificationId);
 });

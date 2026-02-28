@@ -1,23 +1,51 @@
 import { useState, useLayoutEffect } from "react";
 import "./SchedulerForm.css";
 import { isDev } from "./content";
+import { getFormDefaults, saveFormDefaults } from "./utils";
 
 export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [afterTime, setAfterTime] = useState("");
   const [beforeTime, setBeforeTime] = useState("");
+  const [scheduledTime, setScheduledTime] = useState("");
   const [type, setType] = useState("Daily");
-  const [triggerType, setTriggerType] = useState("Everytime on chrome open");
+  const [triggerType, setTriggerType] = useState("On Scheduled time");
   const [shouldPin, setShouldPin] = useState(false);
-  const [focusOnOpen, setFocusOnOpen] = useState(true);
+  const [focusOnOpen, setFocusOnOpen] = useState(false);
+
+  const toLocalInputVal = (isoString) => {
+    if (!isoString) return "";
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) return isoString;
+    const pad = (n) => n.toString().padStart(2, "0");
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  };
+
+  const toUTCString = (localString) => {
+    if (!localString) return "";
+    const date = new Date(localString);
+    if (isNaN(date.getTime())) return localString;
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+    return date.toISOString();
+  };
+
+  const getNextMinute = () => {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + 1);
+    now.setSeconds(0, 0);
+    const pad = (n) => n.toString().padStart(2, "0");
+    return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  };
 
   useLayoutEffect(() => {
     if (Object.keys(scheduler)?.length) {
       setUrl(scheduler.url);
       setTitle(scheduler.title);
-      setAfterTime(scheduler.afterTime);
-      setBeforeTime(scheduler.beforeTime);
+      setAfterTime(toLocalInputVal(scheduler.afterTime));
+      setBeforeTime(toLocalInputVal(scheduler.beforeTime));
+      setScheduledTime(toLocalInputVal(scheduler.scheduledTime));
       setType(scheduler.type);
       setTriggerType(scheduler.triggerType);
       setShouldPin(scheduler.shouldPin);
@@ -27,6 +55,22 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
           : true,
       );
     } else {
+      setScheduledTime(getNextMinute());
+
+      getFormDefaults().then((defaults) => {
+        if (defaults.type) setType(defaults.type);
+        if (defaults.triggerType) {
+          setTriggerType(defaults.triggerType);
+          if (defaults.triggerType === "On Scheduled time") {
+            setScheduledTime(getNextMinute());
+          }
+        }
+        if (typeof defaults.shouldPin === "boolean")
+          setShouldPin(defaults.shouldPin);
+        if (typeof defaults.focusOnOpen === "boolean")
+          setFocusOnOpen(defaults.focusOnOpen);
+      });
+
       if (isDev) {
         setTitle("Dhruv Portfolio");
         setUrl("https://bhaggat.github.io/portfolio/");
@@ -36,8 +80,7 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
             const currentTab = tabs[0];
             setTitle(currentTab.title || "");
             setUrl(currentTab.url || "");
-            setShouldPin(currentTab.pinned || false);
-            setFocusOnOpen(true);
+            // Removed overriding shouldPin and focusOnOpen here to respect saved defaults
           });
         }
       }
@@ -45,12 +88,20 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
   }, [scheduler]);
 
   const handleSubmit = () => {
+    saveFormDefaults({
+      type,
+      triggerType,
+      shouldPin,
+      focusOnOpen,
+    }); // Save defaults on submit
+
     onSubmit({
       id: scheduler?.id,
       title,
       url,
-      afterTime,
-      beforeTime,
+      afterTime: toUTCString(afterTime),
+      beforeTime: toUTCString(beforeTime),
+      scheduledTime: toUTCString(scheduledTime),
       type,
       triggerType,
       shouldPin,
@@ -64,7 +115,7 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
         <button className="modal-close" onClick={onCancel}>
           &times;
         </button>
-        <h2>{scheduler ? "Edit" : "Add"} Scheduler</h2>
+        <h2>{scheduler?.id ? "Edit" : "Add"} Scheduler</h2>
         <input
           type="text"
           placeholder="Title"
@@ -86,23 +137,41 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
         </select>
         <select
           value={triggerType}
-          onChange={(e) => setTriggerType(e.target.value)}
+          onChange={(e) => {
+            const val = e.target.value;
+            setTriggerType(val);
+            if (val === "On Scheduled time") {
+              setScheduledTime(getNextMinute());
+            }
+          }}
         >
+          <option>On Scheduled time</option>
           <option>Everytime on chrome open</option>
           <option>Once per day</option>
         </select>
-        <input
-          type="datetime-local"
-          placeholder="After Time"
-          value={afterTime}
-          onChange={(e) => setAfterTime(e.target.value)}
-        />
-        <input
-          type="datetime-local"
-          placeholder="Before Time"
-          value={beforeTime}
-          onChange={(e) => setBeforeTime(e.target.value)}
-        />
+        {triggerType === "On Scheduled time" ? (
+          <input
+            type="datetime-local"
+            placeholder="Scheduled Time"
+            value={scheduledTime}
+            onChange={(e) => setScheduledTime(e.target.value)}
+          />
+        ) : (
+          <>
+            <input
+              type="datetime-local"
+              placeholder="After Time"
+              value={afterTime}
+              onChange={(e) => setAfterTime(e.target.value)}
+            />
+            <input
+              type="datetime-local"
+              placeholder="Before Time"
+              value={beforeTime}
+              onChange={(e) => setBeforeTime(e.target.value)}
+            />
+          </>
+        )}
         <div className="checkbox-container">
           <input
             type="checkbox"

@@ -68,3 +68,32 @@ export const savePreferences = (preferences) => {
     }
   });
 };
+
+export const getFormDefaults = () =>
+  new Promise((resolve, reject) => {
+    if (!isExtension) {
+      const data = localStorage.getItem("formDefaults");
+      resolve(data ? JSON.parse(data) : {});
+      return;
+    }
+    chrome.storage.local.get("formDefaults", (data) => {
+      if (chrome.runtime.lastError) {
+        console.error("Failed to get form defaults", chrome.runtime.lastError);
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(data.formDefaults || {});
+      }
+    });
+  });
+
+export const saveFormDefaults = (defaults) => {
+  if (!isExtension) {
+    localStorage.setItem("formDefaults", JSON.stringify(defaults));
+    return;
+  }
+  chrome.storage.local.set({ formDefaults: defaults }, () => {
+    if (chrome.runtime.lastError) {
+      console.error("Failed to save form defaults", chrome.runtime.lastError);
+    }
+  });
+};
