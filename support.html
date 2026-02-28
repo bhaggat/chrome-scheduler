@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support - Scheduled Website Opener</title>
+    <meta
+      name="description"
+      content="Get help with Scheduled Website Opener Chrome Extension. Find answers to common questions and contact support."
+    />
+    <link rel="icon" type="image/png" href="icons/icon16.png" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+          "Oxygen", "Ubuntu", "Cantarell", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        padding: 40px 0;
+        color: white;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      .main-content {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 50px;
+        margin: 20px 0;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .back-link {
+        display: inline-block;
+        color: white;
+        text-decoration: none;
+        margin-bottom: 20px;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+      }
+
+      .back-link:hover {
+        opacity: 1;
+      }
+
+      h1 {
+        color: #2d3748;
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+      }
+
+      h2 {
+        color: #2d3748;
+        font-size: 1.6rem;
+        margin: 40px 0 20px;
+        padding-left: 15px;
+        border-left: 4px solid #667eea;
+      }
+
+      h3 {
+        color: #2d3748;
+        font-size: 1.3rem;
+        margin: 30px 0 15px;
+      }
+
+      p {
+        color: #555;
+        margin-bottom: 20px;
+        font-size: 1.05rem;
+      }
+
+      ul,
+      ol {
+        margin: 20px 0;
+        padding-left: 30px;
+      }
+
+      li {
+        color: #555;
+        margin-bottom: 10px;
+        font-size: 1.05rem;
+      }
+
+      .faq-item {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 25px;
+        margin: 20px 0;
+        border-left: 4px solid #667eea;
+      }
+
+      .faq-question {
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+      }
+
+      .faq-answer {
+        color: #555;
+        line-height: 1.6;
+      }
+
+      .highlight-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin: 30px 0;
+        text-align: center;
+      }
+
+      .highlight-box h3 {
+        color: white;
+        margin-bottom: 15px;
+      }
+
+      .contact-info {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 15px;
+        border-left: 5px solid #667eea;
+        margin: 30px 0;
+      }
+
+      .step-list {
+        counter-reset: step-counter;
+      }
+
+      .step-list li {
+        counter-increment: step-counter;
+        position: relative;
+        padding-left: 50px;
+        margin-bottom: 20px;
+      }
+
+      .step-list li::before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: #667eea;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 40px 0;
+        color: white;
+        opacity: 0.8;
+      }
+
+      .footer-links {
+        margin: 20px 0;
+      }
+
+      .footer-links a {
+        color: white;
+        text-decoration: none;
+        margin: 0 20px;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        opacity: 1;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          padding: 30px;
+        }
+
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        h2 {
+          font-size: 1.4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <a href="index.html" class="back-link">← Back to Home</a>
+        <h1>🆘 Support Center</h1>
+        <p>Get help with your extension</p>
+      </header>
+
+      <div class="main-content">
+        <div class="highlight-box">
+          <h3>💬 Need Help?</h3>
+          <p>We're here to help you get the most out of your extension!</p>
+        </div>
+
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+          <div class="faq-question">How do I install the extension?</div>
+          <div class="faq-answer">
+            <ol class="step-list">
+              <li>
+                Visit the
+                <a
+                  href="https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl"
+                  target="_blank"
+                  >Chrome Web Store</a
+                >
+              </li>
+              <li>Click "Add to Chrome"</li>
+              <li>Confirm the installation in the popup</li>
+              <li>
+                Click the extension icon in your browser toolbar to start using
+                it
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How do I schedule a website to open?</div>
+          <div class="faq-answer">
+            <ol class="step-list">
+              <li>Click the extension icon in your browser toolbar</li>
+              <li>Click the "Add Schedule" button</li>
+              <li>Enter the website URL you want to schedule</li>
+              <li>Set the date and time for when it should open</li>
+              <li>Choose the recurrence (daily, weekly, monthly, etc.)</li>
+              <li>Click "Save" to create your schedule</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I edit or delete scheduled websites?
+          </div>
+          <div class="faq-answer">
+            Yes! You can edit or delete any scheduled website by clicking the
+            edit or delete buttons next to each scheduled item in the extension
+            popup.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Will my schedules work if I close my browser?
+          </div>
+          <div class="faq-answer">
+            Yes! The extension uses Chrome's alarm system, so your scheduled
+            websites will open even if your browser is closed, as long as Chrome
+            is running in the background.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Is my data safe and private?</div>
+          <div class="faq-answer">
+            Absolutely! All your schedule data is stored locally on your device.
+            We don't collect, store, or share any of your personal information.
+            Your data never leaves your computer.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            The extension isn't working. What should I do?
+          </div>
+          <div class="faq-answer">
+            Try these troubleshooting steps:
+            <ol class="step-list">
+              <li>Make sure Chrome is updated to the latest version</li>
+              <li>Disable and re-enable the extension</li>
+              <li>Check if the extension has the necessary permissions</li>
+              <li>Restart your browser</li>
+              <li>If the issue persists, contact our support team</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I schedule multiple websites at the same time?
+          </div>
+          <div class="faq-answer">
+            Yes! You can schedule as many websites as you want, and they can all
+            be set to open at the same time or at different times throughout the
+            day.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Does the extension work on mobile devices?
+          </div>
+          <div class="faq-answer">
+            Currently, the extension is designed for desktop Chrome browsers. It
+            may not work on mobile devices or other browsers.
+          </div>
+        </div>
+
+        <h2>🛠️ Troubleshooting</h2>
+
+        <h3>Extension Not Opening Websites</h3>
+        <ul>
+          <li>
+            Check if Chrome is running (the extension needs Chrome to be active)
+          </li>
+          <li>Verify that the scheduled time has passed</li>
+          <li>Make sure the website URL is correct and accessible</li>
+          <li>Check if popup blockers are interfering</li>
+        </ul>
+
+        <h3>Extension Not Loading</h3>
+        <ul>
+          <li>Refresh the extension page</li>
+          <li>Check Chrome's extension management page</li>
+          <li>Ensure you have the latest version installed</li>
+          <li>Try disabling and re-enabling the extension</li>
+        </ul>
+
+        <h3>Schedule Not Saving</h3>
+        <ul>
+          <li>Make sure all required fields are filled out</li>
+          <li>Check if the date/time is set correctly</li>
+          <li>Verify that Chrome has storage permissions</li>
+          <li>Try clearing the extension's data and starting fresh</li>
+        </ul>
+
+        <h2>📞 Contact Support</h2>
+        <div class="contact-info">
+          <p>
+            If you can't find the answer to your question in the FAQ above,
+            please don't hesitate to contact us:
+          </p>
+          <p>
+            <strong>Email:</strong>
+            <a href="mailto:dhruvbhagat98@gmail.com">dhruvbhagat98@gmail.com</a>
+          </p>
+          <p>
+            <strong>Response Time:</strong> We typically respond within 24-48
+            hours
+          </p>
+          <p>
+            <strong>Extension Link:</strong>
+            <a
+              href="https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl"
+              target="_blank"
+              >Chrome Web Store</a
+            >
+          </p>
+        </div>
+
+        <h3>When Contacting Support</h3>
+        <p>To help us assist you better, please include:</p>
+        <ul>
+          <li>Your Chrome version</li>
+          <li>Extension version</li>
+          <li>Operating system</li>
+          <li>Description of the issue</li>
+          <li>Steps you've already tried</li>
+        </ul>
+
+        <h2>💡 Tips for Best Results</h2>
+        <ul>
+          <li>Keep Chrome updated to the latest version</li>
+          <li>
+            Don't close Chrome completely if you want scheduled websites to open
+          </li>
+          <li>Use full URLs (including https://) for better reliability</li>
+          <li>Test your schedules with a short time delay first</li>
+          <li>Check your system's date and time settings</li>
+        </ul>
+      </div>
+
+      <footer class="footer">
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="mailto:dhruvbhagat98@gmail.com">Contact</a>
+        </div>
+        <p>&copy; 2024 Scheduled Website Opener. All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>
