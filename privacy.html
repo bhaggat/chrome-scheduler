@@ -1,357 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Privacy Policy - Scheduled Website Opener</title>
-    <meta
-      name="description"
-      content="Privacy Policy for Scheduled Website Opener Chrome Extension. Learn how we protect your data and privacy."
-    />
-    <link rel="icon" type="image/png" href="icons/icon16.png" />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy - Scheduled Website Opener</title>
+  <meta name="description" content="Privacy Policy for Scheduled Website Opener Chrome Extension. Learn how we protect your data and privacy with 100% local browser storage." />
+  <link rel="icon" type="image/png" href="icons/icon16.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .legal-content {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      margin: 40px 0;
+      box-shadow: var(--shadow-lg);
+    }
 
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-          "Oxygen", "Ubuntu", "Cantarell", sans-serif;
-        line-height: 1.6;
-        color: #333;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-      }
+    .legal-content h1 { margin-bottom: 24px; }
+    .legal-content h2 { margin: 36px 0 16px; border-left: 4px solid var(--primary); padding-left: 12px; }
+    .legal-content h3 { margin: 24px 0 12px; color: var(--text-main); }
+    .legal-content p, .legal-content li { color: var(--text-muted); font-size: 1rem; margin-bottom: 16px; line-height: 1.7; }
+    .legal-content ul { padding-left: 24px; margin-bottom: 24px; }
+    
+    .highlight-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin: 24px 0;
+    }
 
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-      }
+    .highlight-card h3 { color: #a5b4fc; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
 
-      .header {
-        text-align: center;
-        padding: 40px 0;
-        color: white;
-      }
-
-      .header h1 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 10px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      }
-
-      .header p {
-        font-size: 1.1rem;
-        opacity: 0.9;
-      }
-
-      .main-content {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 50px;
-        margin: 20px 0;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      .back-link {
-        display: inline-block;
-        color: white;
-        text-decoration: none;
-        margin-bottom: 20px;
-        opacity: 0.8;
-        transition: opacity 0.3s ease;
-      }
-
-      .back-link:hover {
-        opacity: 1;
-      }
-
-      h1 {
-        color: #2d3748;
-        font-size: 2.2rem;
-        margin-bottom: 30px;
-        border-bottom: 3px solid #667eea;
-        padding-bottom: 10px;
-      }
-
-      h2 {
-        color: #2d3748;
-        font-size: 1.6rem;
-        margin: 40px 0 20px;
-        padding-left: 15px;
-        border-left: 4px solid #667eea;
-      }
-
-      h3 {
-        color: #2d3748;
-        font-size: 1.3rem;
-        margin: 30px 0 15px;
-      }
-
-      p {
-        color: #555;
-        margin-bottom: 20px;
-        font-size: 1.05rem;
-      }
-
-      ul,
-      ol {
-        margin: 20px 0;
-        padding-left: 30px;
-      }
-
-      li {
-        color: #555;
-        margin-bottom: 10px;
-        font-size: 1.05rem;
-      }
-
-      code {
-        background: #f8f9fa;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-        color: #e83e8c;
-        font-size: 0.9rem;
-      }
-
-      .highlight-box {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 25px;
-        border-radius: 15px;
-        margin: 30px 0;
-        text-align: center;
-      }
-
-      .highlight-box h3 {
-        color: white;
-        margin-bottom: 15px;
-      }
-
-      .contact-info {
-        background: #f8f9fa;
-        padding: 25px;
-        border-radius: 15px;
-        border-left: 5px solid #667eea;
-        margin: 30px 0;
-      }
-
-      .footer {
-        text-align: center;
-        padding: 40px 0;
-        color: white;
-        opacity: 0.8;
-      }
-
-      .footer-links {
-        margin: 20px 0;
-      }
-
-      .footer-links a {
-        color: white;
-        text-decoration: none;
-        margin: 0 20px;
-        opacity: 0.8;
-        transition: opacity 0.3s ease;
-      }
-
-      .footer-links a:hover {
-        opacity: 1;
-      }
-
-      @media (max-width: 768px) {
-        .main-content {
-          padding: 30px;
-        }
-
-        .header h1 {
-          font-size: 2rem;
-        }
-
-        h1 {
-          font-size: 1.8rem;
-        }
-
-        h2 {
-          font-size: 1.4rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <header class="header">
-        <a href="index.html" class="back-link">← Back to Home</a>
-        <h1>🔒 Privacy Policy</h1>
-        <p>Your privacy is our top priority</p>
-      </header>
-
-      <div class="main-content">
-        <div class="highlight-box">
-          <h3>🛡️ Privacy First</h3>
-          <p>
-            We do not collect, store, or share any personal information. All
-            your data stays on your device.
-          </p>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <img src="icons/icon48.png" alt="Logo" onerror="this.onerror=null; this.src='icons/icon16.png';" />
         </div>
+        <span class="brand-title">Scheduled Website Opener</span>
+      </a>
 
-        <h2>📋 Overview</h2>
-        <p>
-          This privacy policy explains how the
-          <strong>Scheduled Website Opener</strong> Chrome extension handles
-          your data. We are committed to protecting your privacy and ensuring
-          complete transparency about our data practices.
-        </p>
+      <ul class="nav-links">
+        <li><a href="index.html#features" class="nav-link">Features</a></li>
+        <li><a href="index.html#demo" class="nav-link">Live Demo</a></li>
+        <li><a href="index.html#developer" class="nav-link">Developer</a></li>
+        <li><a href="privacy.html" class="nav-link" style="color: var(--primary);">Privacy Policy</a></li>
+      </ul>
 
-        <h2>🔍 What Data We Collect</h2>
-        <p>
-          <strong>We collect absolutely no personal information.</strong> The
-          extension operates entirely locally on your device using Chrome's
-          built-in storage APIs.
-        </p>
+      <div class="nav-actions">
+        <a href="index.html" class="btn btn-secondary btn-sm">← Back to Home</a>
+      </div>
+    </div>
+  </nav>
 
-        <h3>Local Data Storage</h3>
-        <p>The following data is stored locally on your device:</p>
-        <ul>
-          <li>
-            <strong>Website URLs:</strong> The websites you schedule to open
-          </li>
-          <li>
-            <strong>Schedule Times:</strong> The times you set for automatic
-            opening
-          </li>
-          <li>
-            <strong>Recurrence Settings:</strong> Whether schedules are daily,
-            weekly, monthly, etc.
-          </li>
-          <li>
-            <strong>Extension Preferences:</strong> Your personal settings and
-            configurations
-          </li>
-        </ul>
-
-        <h2>🔐 How Your Data is Handled</h2>
-        <p>
-          All your schedule data stays entirely on your computer. We do not send
-          any data to external servers, third parties, or our own servers. Your
-          data is processed using Chrome's local storage APIs:
-        </p>
-        <ul>
-          <li>
-            <code>chrome.storage.local</code> - Stores your schedule data
-            locally
-          </li>
-          <li><code>chrome.alarms</code> - Manages scheduled triggers</li>
-          <li><code>chrome.tabs</code> - Opens websites when scheduled</li>
-        </ul>
-
-        <h2>🛠️ Permissions Used</h2>
-        <p>
-          Our extension requires the following permissions, all of which are
-          used locally:
-        </p>
-
-        <h3>Storage Permission</h3>
-        <p>
-          <strong>Purpose:</strong> To store your schedule list and preferences
-          locally on your device.<br />
-          <strong>Data:</strong> Only your scheduled websites and timing
-          preferences.<br />
-          <strong>Sharing:</strong> Never shared with anyone.
-        </p>
-
-        <h3>Alarms Permission</h3>
-        <p>
-          <strong>Purpose:</strong> To trigger website opening actions at
-          scheduled times.<br />
-          <strong>Data:</strong> Only timing information for your scheduled
-          tasks.<br />
-          <strong>Sharing:</strong> Never shared with anyone.
-        </p>
-
-        <h3>Tabs Permission</h3>
-        <p>
-          <strong>Purpose:</strong> To open scheduled websites in new browser
-          tabs.<br />
-          <strong>Data:</strong> Only the URLs you have scheduled to open.<br />
-          <strong>Sharing:</strong> Never shared with anyone.
-        </p>
-
-        <h2>🌐 Third-Party Services</h2>
-        <p>
-          We do not use any third-party analytics, tracking, or data collection
-          services. The extension operates completely independently without any
-          external dependencies for data processing.
-        </p>
-
-        <h2>🔄 Data Retention</h2>
-        <p>
-          Your data is stored locally on your device and will persist until you:
-        </p>
-        <ul>
-          <li>Uninstall the extension</li>
-          <li>Manually clear your browser's extension data</li>
-          <li>Delete scheduled items through the extension interface</li>
-        </ul>
-
-        <h2>🔒 Security</h2>
-        <p>
-          Since all data is stored locally on your device, your information is
-          protected by your device's security measures. We recommend keeping
-          your browser and operating system updated for optimal security.
-        </p>
-
-        <h2>👥 Children's Privacy</h2>
-        <p>
-          Our extension does not collect any personal information from anyone,
-          including children. The extension is safe for users of all ages.
-        </p>
-
-        <h2>📞 Contact Information</h2>
-        <div class="contact-info">
-          <p>
-            If you have any questions about this privacy policy or our data
-            practices, please contact us:
-          </p>
-          <p>
-            <strong>Email:</strong>
-            <a href="mailto:dhruvbhagat98@gmail.com">dhruvbhagat98@gmail.com</a>
-          </p>
-          <p>
-            <strong>Extension:</strong>
-            <a
-              href="https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl"
-              target="_blank"
-              >Chrome Web Store</a
-            >
-          </p>
-        </div>
-
-        <h2>📅 Policy Updates</h2>
-        <p>
-          We may update this privacy policy from time to time. Any changes will
-          be posted on this page with an updated revision date. We encourage you
-          to review this policy periodically.
-        </p>
-        <p><strong>Last updated:</strong> December 2024</p>
+  <div class="container">
+    <div class="legal-content">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>Privacy Guarantee • 100% Client-Side Only</span>
       </div>
 
-      <footer class="footer">
-        <div class="footer-links">
-          <a href="index.html">Home</a>
-          <a href="terms.html">Terms of Service</a>
-          <a href="support.html">Support</a>
-          <a href="mailto:dhruvbhagat98@gmail.com">Contact</a>
-        </div>
-        <p>&copy; 2024 Scheduled Website Opener. All rights reserved.</p>
-      </footer>
+      <h1>🔒 Privacy Policy</h1>
+      <p>Last updated: July 2026</p>
+
+      <div class="highlight-card">
+        <h3>🛡️ Privacy First Commitment</h3>
+        <p style="margin-bottom: 0;">
+          Scheduled Website Opener does not collect, track, or share any personal information. All your URL schedule rules stay 100% locally inside your browser profile.
+        </p>
+      </div>
+
+      <h2>1. Overview</h2>
+      <p>
+        This privacy policy explains how the <strong>Scheduled Website Opener</strong> Chrome extension handles user data. We are committed to complete privacy and transparency.
+      </p>
+
+      <h2>2. What Data We Collect</h2>
+      <p>
+        <strong>We collect zero personal information.</strong> The extension operates entirely offline and locally on your machine using Chrome's native extension APIs.
+      </p>
+
+      <h3>Local Data Storage</h3>
+      <p>The following data is stored locally in your browser (`chrome.storage.local`):</p>
+      <ul>
+        <li><strong>Website URLs:</strong> The URLs you schedule to open.</li>
+        <li><strong>Schedule Rules:</strong> The times and frequencies you specify.</li>
+        <li><strong>Extension Preferences:</strong> Your active toggles and settings.</li>
+      </ul>
+
+      <h2>3. How Your Data is Processed</h2>
+      <p>
+        All schedule execution happens strictly on your computer. We do not operate external tracking servers or databases. Data is processed using:
+      </p>
+      <ul>
+        <li><code>chrome.storage.local</code> — Stores schedule entries locally on your device.</li>
+        <li><code>chrome.alarms</code> — Manages browser timers for URL opening triggers.</li>
+        <li><code>chrome.tabs</code> — Opens scheduled URLs in browser tabs when alarms fire.</li>
+      </ul>
+
+      <h2>4. Permissions Used & Purpose</h2>
+
+      <h3>Storage Permission</h3>
+      <p><strong>Purpose:</strong> To save your scheduled website list and preferences locally.<br /><strong>Sharing:</strong> Never shared or transmitted anywhere.</p>
+
+      <h3>Alarms Permission</h3>
+      <p><strong>Purpose:</strong> To fire timing events that launch your requested tabs.<br /><strong>Sharing:</strong> Processed locally inside Chrome.</p>
+
+      <h3>Tabs Permission</h3>
+      <p><strong>Purpose:</strong> To open your scheduled website links in new browser tabs.<br /><strong>Sharing:</strong> Never shared.</p>
+
+      <h2>5. Developer & Contact Information</h2>
+      <p>If you have any questions or feedback regarding this policy or the extension, feel free to reach out:</p>
+      
+      <div style="background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 24px; margin-top: 16px;">
+        <p style="margin-bottom: 8px;"><strong>Developer:</strong> Kanuka Bhagat (Bhaggat)</p>
+        <p style="margin-bottom: 8px;"><strong>Developer Portfolio:</strong> <a href="https://me.bhaggat.in/" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline;">https://me.bhaggat.in/</a></p>
+        <p style="margin-bottom: 8px;"><strong>GitHub:</strong> <a href="https://github.com/bhaggat" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline;">https://github.com/bhaggat</a></p>
+        <p style="margin-bottom: 8px;"><strong>Email:</strong> <a href="mailto:dhruvbhagat98@gmail.com" style="color: var(--primary); text-decoration: underline;">dhruvbhagat98@gmail.com</a></p>
+        <p style="margin-bottom: 0;"><strong>Extension Store Listing:</strong> <a href="https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl/reviews?hl=en-GB&authuser=0" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline;">Chrome Web Store</a></p>
+      </div>
     </div>
-  </body>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 Scheduled Website Opener. Created by <a href="https://me.bhaggat.in/" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline;">Bhaggat</a>.</p>
+        <p><a href="index.html" style="color: var(--text-muted);">Back to Home</a> • <a href="terms.html" style="color: var(--text-muted);">Terms of Service</a></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
 </html>
