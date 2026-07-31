@@ -1,296 +1,509 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scheduled Website Opener - Chrome Extension</title>
-    <meta
-      name="description"
-      content="Automatically open specific websites at scheduled times: daily, weekly, monthly, or custom. Never miss important tasks again!"
-    />
-    <link rel="icon" type="image/png" href="icons/icon16.png" />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scheduled Website Opener - Chrome Extension | Automate Web Tab Opening</title>
+  <meta name="description" content="Automatically open specific websites & URLs at scheduled times: daily standups, weekly analytics, monthly reports, or custom intervals. 100% free & local privacy." />
+  <meta name="keywords" content="chrome extension, website scheduler, automatic tab opener, schedule URLs, chrome alarms, productivity tool, website automation" />
+  <meta property="og:title" content="Scheduled Website Opener - Chrome Extension" />
+  <meta property="og:description" content="Never miss an important website or meeting link. Automatically open scheduled tabs right on time." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://me.bhaggat.in/" />
+  
+  <link rel="icon" type="image/png" href="icons/icon16.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
 
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-          "Oxygen", "Ubuntu", "Cantarell", sans-serif;
-        line-height: 1.6;
-        color: #333;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-      }
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <img src="icons/icon48.png" alt="Scheduled Website Opener Logo" onerror="this.onerror=null; this.src='icons/icon16.png';" />
+        </div>
+        <span class="brand-title">Scheduled Website Opener</span>
+      </a>
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-      }
+      <ul class="nav-links">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#demo" class="nav-link">Interactive Demo</a></li>
+        <li><a href="#reviews" class="nav-link">Reviews</a></li>
+        <li><a href="#developer" class="nav-link">Developer</a></li>
+        <li><a href="privacy.html" class="nav-link">Privacy Policy</a></li>
+      </ul>
 
-      .header {
-        text-align: center;
-        padding: 60px 0;
-        color: white;
-      }
-
-      .header h1 {
-        font-size: 3.5rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      }
-
-      .header p {
-        font-size: 1.3rem;
-        margin-bottom: 40px;
-        opacity: 0.9;
-      }
-
-      .cta-button {
-        display: inline-block;
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-        padding: 15px 30px;
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-      }
-
-      .cta-button:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      }
-
-      .main-content {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 60px;
-        margin: 40px 0;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      .features {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 40px;
-        margin: 60px 0;
-      }
-
-      .feature {
-        text-align: center;
-        padding: 30px;
-        background: rgba(255, 255, 255, 0.7);
-        border-radius: 15px;
-        transition: all 0.3s ease;
-      }
-
-      .feature:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      .feature-icon {
-        font-size: 3rem;
-        margin-bottom: 20px;
-      }
-
-      .feature h3 {
-        font-size: 1.5rem;
-        margin-bottom: 15px;
-        color: #2d3748;
-      }
-
-      .feature p {
-        color: #666;
-        line-height: 1.6;
-      }
-
-      .screenshots {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
-        margin: 60px 0;
-      }
-
-      .screenshot {
-        background: #f8f9fa;
-        border-radius: 15px;
-        padding: 30px;
-        text-align: center;
-        border: 2px solid #e9ecef;
-      }
-
-      .screenshot-placeholder {
-        width: 100%;
-        height: 200px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-      }
-
-      .footer {
-        text-align: center;
-        padding: 40px 0;
-        color: white;
-        opacity: 0.8;
-      }
-
-      .footer-links {
-        margin: 20px 0;
-      }
-
-      .footer-links a {
-        color: white;
-        text-decoration: none;
-        margin: 0 20px;
-        opacity: 0.8;
-        transition: opacity 0.3s ease;
-      }
-
-      .footer-links a:hover {
-        opacity: 1;
-      }
-
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 30px;
-        margin: 40px 0;
-      }
-
-      .stat {
-        text-align: center;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 15px;
-        backdrop-filter: blur(10px);
-      }
-
-      .stat-number {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: white;
-        margin-bottom: 10px;
-      }
-
-      .stat-label {
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 1rem;
-      }
-
-      @media (max-width: 768px) {
-        .header h1 {
-          font-size: 2.5rem;
-        }
-
-        .main-content {
-          padding: 30px;
-          margin: 20px 0;
-        }
-
-        .features {
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <header class="header">
-        <h1>🚀 Scheduled Website Opener</h1>
-        <p>
-          Never miss important tasks again. Automatically open websites at your
-          desired times.
-        </p>
-        <a
-          href="https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl"
-          class="cta-button"
-          target="_blank"
-        >
-          Install Extension
+      <div class="nav-actions">
+        <a href="https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl/reviews?hl=en-GB&authuser=0" target="_blank" rel="noopener" class="btn btn-chrome">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.54.06-1.07.17-1.58L8.74 15c.29.58.89 1 1.58 1h2v2c0 1.1.9 2 2 2v.92c-.73.05-1.47.08-2.32.08zm6.93-4.17c-.3-.49-.83-.83-1.43-.83h-1v-3c0-.55-.45-1-1-1H9.5v-2h2c.55 0 1-.45 1-1V6.5c1.47 0 2.84.5 3.93 1.34L14 11h3c1.1 0 2 .9 2 2v1.5c0 .49-.18.94-.47 1.33z"/></svg>
+          Add to Chrome
         </a>
-      </header>
+      </div>
+    </div>
+  </nav>
 
-      <div class="main-content">
-        <h2 style="text-align: center; margin-bottom: 40px; color: #2d3748">
-          Why Choose Our Extension?
-        </h2>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>100% Free • Local Privacy • Smart Auto-Tab Opener</span>
+      </div>
 
-        <div class="features">
-          <div class="feature">
-            <div class="feature-icon">⏰</div>
-            <h3>Flexible Scheduling</h3>
-            <p>
-              Set specific times to open websites automatically—daily, weekly,
-              monthly, or annually. Customize your schedule to fit your needs.
-            </p>
+      <h1>Open Any Website, <br /><span class="gradient-text">Right on Schedule</span></h1>
+
+      <p class="hero-description">
+        Automate daily Standup meeting links, weekly analytics dashboards, monthly invoice portals, or recurring web workflows. The privacy-first Chrome extension that opens your URLs right when you need them.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl/reviews?hl=en-GB&authuser=0" target="_blank" rel="noopener" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+          Install on Chrome Web Store
+        </a>
+        <a href="#demo" class="btn btn-secondary">
+          Try Live Simulator ↓
+        </a>
+      </div>
+
+      <div class="rating-bar">
+        <span class="stars">★★★★★</span>
+        <span><strong>5.0 / 5.0 Rating</strong> on Chrome Web Store</span>
+      </div>
+
+      <!-- Hero Extension Mockup UI -->
+      <div class="hero-mockup-wrapper">
+        <div class="hero-mockup">
+          <div class="mockup-header">
+            <div class="mockup-controls">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="mockup-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Scheduled Website Opener Popup
+            </div>
+            <div></div>
           </div>
+          <div class="mockup-body">
+            <div class="mockup-scheduler-item">
+              <div class="item-info">
+                <div class="item-icon">🚀</div>
+                <div class="item-details">
+                  <h4>Daily Team Standup (Google Meet)</h4>
+                  <p>https://meet.google.com/abc-xyz • Daily @ 09:30 AM</p>
+                </div>
+              </div>
+              <div class="item-meta">
+                <div class="toggle-switch"></div>
+              </div>
+            </div>
 
-          <div class="feature">
-            <div class="feature-icon">🔒</div>
-            <h3>100% Private</h3>
-            <p>
-              Your data stays on your device. We don't collect, store, or share
-              any personal information. Complete privacy guaranteed.
-            </p>
-          </div>
+            <div class="mockup-scheduler-item">
+              <div class="item-info">
+                <div class="item-icon">📊</div>
+                <div class="item-details">
+                  <h4>Weekly Analytics & Revenue Dashboard</h4>
+                  <p>https://analytics.google.com • Every Mon @ 10:00 AM</p>
+                </div>
+              </div>
+              <div class="item-meta">
+                <div class="toggle-switch"></div>
+              </div>
+            </div>
 
-          <div class="feature">
-            <div class="feature-icon">⚡</div>
-            <h3>Easy to Use</h3>
-            <p>
-              Add websites to your schedule in just a few clicks. Intuitive
-              interface makes scheduling effortless and efficient.
-            </p>
-          </div>
-
-          <div class="feature">
-            <div class="feature-icon">💾</div>
-            <h3>Persistent Storage</h3>
-            <p>
-              Your scheduled tasks are saved and won't be lost if you restart
-              your browser. Reliable and consistent performance.
-            </p>
-          </div>
-
-          <div class="feature">
-            <div class="feature-icon">🎯</div>
-            <h3>Custom Reminders</h3>
-            <p>
-              Schedule actions for websites so you never miss important tasks.
-              Stay organized and productive with automated reminders.
-            </p>
+            <div class="mockup-scheduler-item">
+              <div class="item-info">
+                <div class="item-icon">📑</div>
+                <div class="item-details">
+                  <h4>Monthly Timesheet Submission</h4>
+                  <p>https://hr.company.com/timesheets • 1st of month @ 09:00 AM</p>
+                </div>
+              </div>
+              <div class="item-meta">
+                <div class="toggle-switch"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <footer class="footer">
-        <div class="footer-links">
-          <a href="privacy.html">Privacy Policy</a>
-          <a href="terms.html">Terms of Service</a>
-          <a href="support.html">Support</a>
-          <a href="mailto:dhruvbhagat98@gmail.com">Contact</a>
-        </div>
-        <p>&copy; 2024 Scheduled Website Opener. All rights reserved.</p>
-      </footer>
     </div>
-  </body>
+  </section>
+
+  <!-- Features Grid Section -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Designed for <span class="gradient-text">Peak Productivity</span></h2>
+        <p>Never forget to open recurring dashboards, daily forms, or scheduled video calls ever again.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            ⏰
+          </div>
+          <h3>Flexible Recurrence</h3>
+          <p>Set schedule rules for Daily, Weekly, Monthly, Specific Calendar Dates, or Custom minute/hour intervals.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            🔒
+          </div>
+          <h3>100% Private & Local</h3>
+          <p>Zero tracking or remote logging. All website schedule rules stay safely on your machine using Chrome's local storage.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            ⚡
+          </div>
+          <h3>Background Triggering</h3>
+          <p>Powered by native Chrome Alarms API. Open tabs automatically in the background even when navigating other pages.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            🎯
+          </div>
+          <h3>Smart Active Toggles</h3>
+          <p>Quickly enable or pause scheduled openers with a single switch without deleting your custom schedule parameters.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            💡
+          </div>
+          <h3>Custom Tab Preferences</h3>
+          <p>Choose whether tabs open silently in background or automatically focus as your active foreground tab.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            🚀
+          </div>
+          <h3>Lightweight & Fast</h3>
+          <p>Zero memory bloat. Runs instantly in the browser without slowing down your system or consuming CPU resources.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Interactive Simulator -->
+  <section id="demo" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Try <span class="gradient-accent">Live Schedule Simulator</span></h2>
+        <p>Test how easy it is to schedule any URL and see how your schedules will look in action.</p>
+      </div>
+
+      <div class="simulator-box">
+        <form class="sim-form" id="simForm">
+          <h3>➕ Add New Schedule Rule</h3>
+          
+          <div class="form-group">
+            <label for="simTitle">Schedule Title / Label</label>
+            <input type="text" id="simTitle" class="form-input" placeholder="e.g. Morning News & Stocks" required />
+          </div>
+
+          <div class="form-group">
+            <label for="simUrl">Website URL</label>
+            <input type="url" id="simUrl" class="form-input" placeholder="https://news.google.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="simFrequency">Recurrence</label>
+            <select id="simFrequency" class="form-select">
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly (Every Monday)</option>
+              <option value="Monthly">Monthly (1st Day)</option>
+              <option value="Once">One-Time Only</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="simTime">Opening Time</label>
+            <input type="time" id="simTime" class="form-input" value="09:00" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+            + Schedule Website
+          </button>
+        </form>
+
+        <div class="sim-list-container">
+          <h3 style="margin-bottom: 20px;">📅 Active Scheduled Tabs</h3>
+          <div class="sim-list" id="simList">
+            <!-- Dynamic items rendered by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chrome Web Store Reviews Section -->
+  <section id="reviews" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Loved by <span class="gradient-text">Users & Productivity Fans</span></h2>
+        <p>Read what users say on the official Chrome Web Store listing.</p>
+      </div>
+
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Saves me every single morning! I used to forget joining our daily 9:30 AM standup link. Now Chrome opens it right on time automatically."</p>
+          <div class="review-author">— Chrome Web Store User</div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Clean, privacy-focused and extremely reliable. Exactly what a Chrome extension should be. No signups or ads!"</p>
+          <div class="review-author">— Verified Extension User</div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"I use this to open our company weekly analytics portal every Monday. Works like a charm every time."</p>
+          <div class="review-author">— Productivity Enthusiast</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px;">
+        <a href="https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl/reviews?hl=en-GB&authuser=0" target="_blank" rel="noopener" class="btn btn-secondary">
+          View All Reviews on Chrome Web Store →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Developer Contact Section (IMPORTANT) -->
+  <section id="developer" class="section developer-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Developer <span class="gradient-text">Contact & Profile</span></h2>
+        <p>Built with care by an independent software developer committed to high quality & privacy.</p>
+      </div>
+
+      <div class="developer-card">
+        <div class="developer-avatar">
+          <div class="developer-avatar-placeholder">DB</div>
+        </div>
+
+        <div class="developer-info">
+          <h3>Dhruv Bhagat</h3>
+          <div class="developer-title">Creator & Software Engineer • Scheduled Website Opener</div>
+          <p class="developer-bio">
+            I build fast, privacy-respecting extensions and web tools designed to automate repetitive browser workflows and elevate everyday productivity. Feel free to explore my personal site, inspect source repositories, or drop a connect message!
+          </p>
+
+          <div class="developer-links">
+            <a href="https://me.bhaggat.in/" target="_blank" rel="noopener" class="social-btn primary-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              me.bhaggat.in (Portfolio)
+            </a>
+
+            <a href="https://github.com/bhaggat" target="_blank" rel="noopener" class="social-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              GitHub Profile
+            </a>
+
+            <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.7a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2z"/></svg>
+              LinkedIn
+            </a>
+
+            <a href="mailto:dhruvbhagat98@gmail.com" class="social-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Email Contact
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Frequently Asked <span class="gradient-accent">Questions</span></h2>
+        <p>Got questions? We've got answers.</p>
+      </div>
+
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <div class="faq-question">
+            Does Chrome need to be open for scheduled websites to open?
+            <span>↓</span>
+          </div>
+          <div class="faq-answer">
+            Yes, Google Chrome must be running in the background for alarms to trigger tab opening. If Chrome is closed at the scheduled time, the extension will open missed websites upon browser launch.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Is my browsing or schedule data uploaded to external servers?
+            <span>↓</span>
+          </div>
+          <div class="faq-answer">
+            No, 100% of your data remains strictly local in your Google Chrome profile storage (`chrome.storage.local`). We collect zero personal data, telemetry, or URLs.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            Is Scheduled Website Opener free to use?
+            <span>↓</span>
+          </div>
+          <div class="faq-answer">
+            Yes, the extension is 100% free with full functionality and zero ads.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand">
+            <div class="brand-icon">
+              <img src="icons/icon48.png" alt="Logo" onerror="this.onerror=null; this.src='icons/icon16.png';" />
+            </div>
+            <span class="brand-title">Scheduled Website Opener</span>
+          </a>
+          <p>Automate your web tab openings at scheduled times. Privacy-first, lightweight, and fast.</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#demo">Live Demo</a></li>
+            <li><a href="#reviews">User Reviews</a></li>
+            <li><a href="support.html">Support & FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Developer</h4>
+          <ul>
+            <li><a href="https://me.bhaggat.in/" target="_blank" rel="noopener">Developer Portfolio (me.bhaggat.in)</a></li>
+            <li><a href="https://github.com/bhaggat" target="_blank" rel="noopener">GitHub Profile</a></li>
+            <li><a href="https://chromewebstore.google.com/detail/scheduled-website-opener/peimippheccjbhianpahacphickkbbjl/reviews?hl=en-GB&authuser=0" target="_blank" rel="noopener">Chrome Store Listing</a></li>
+            <li><a href="mailto:dhruvbhagat98@gmail.com">Email Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Scheduled Website Opener. Created by <a href="https://me.bhaggat.in/" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline;">Bhaggat</a>. All rights reserved.</p>
+        <p>Chrome is a trademark of Google LLC.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Live Simulator Script -->
+  <script>
+    const initialSchedules = [
+      { id: 1, title: 'Daily Standup Meeting', url: 'https://meet.google.com/xyz-abc', freq: 'Daily', time: '09:30 AM', active: true },
+      { id: 2, title: 'Weekly Analytics Dashboard', url: 'https://analytics.google.com', freq: 'Weekly', time: 'Mon 10:00 AM', active: true },
+      { id: 3, title: 'Monthly Timesheet Submission', url: 'https://hr.company.com/timesheets', freq: 'Monthly', time: '1st 09:00 AM', active: false }
+    ];
+
+    function renderSimList() {
+      const listEl = document.getElementById('simList');
+      if (!listEl) return;
+
+      listEl.innerHTML = initialSchedules.map(item => `
+        <div class="mockup-scheduler-item">
+          <div class="item-info">
+            <div class="item-icon">${item.freq === 'Daily' ? '⏰' : item.freq === 'Weekly' ? '📊' : '📑'}</div>
+            <div class="item-details">
+              <h4>${escapeHtml(item.title)}</h4>
+              <p>${escapeHtml(item.url)} • ${item.freq} @ ${item.time}</p>
+            </div>
+          </div>
+          <div class="item-meta">
+            <div class="toggle-switch ${item.active ? '' : 'off'}" onclick="toggleSimItem(${item.id})"></div>
+            <button onclick="deleteSimItem(${item.id})" style="background:none; border:none; color: #ef4444; cursor:pointer; font-size:1.1rem; padding:4px;">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function toggleSimItem(id) {
+      const item = initialSchedules.find(s => s.id === id);
+      if (item) {
+        item.active = !item.active;
+        renderSimList();
+      }
+    }
+
+    function deleteSimItem(id) {
+      const idx = initialSchedules.findIndex(s => s.id === id);
+      if (idx !== -1) {
+        initialSchedules.splice(idx, 1);
+        renderSimList();
+      }
+    }
+
+    document.getElementById('simForm')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('simTitle').value.trim();
+      const url = document.getElementById('simUrl').value.trim();
+      const freq = document.getElementById('simFrequency').value;
+      const timeVal = document.getElementById('simTime').value;
+
+      if (!title || !url) return;
+
+      initialSchedules.unshift({
+        id: Date.now(),
+        title: title,
+        url: url,
+        freq: freq,
+        time: timeVal,
+        active: true
+      });
+
+      renderSimList();
+      this.reset();
+      document.getElementById('simTime').value = "09:00";
+    });
+
+    document.querySelectorAll('.faq-question').forEach(item => {
+      item.addEventListener('click', () => {
+        const parent = item.parentElement;
+        const answer = parent.querySelector('.faq-answer');
+        if (answer.style.display === 'none' || !answer.style.display) {
+          answer.style.display = 'block';
+        } else {
+          answer.style.display = 'none';
+        }
+      });
+    });
+
+    // Initial render
+    renderSimList();
+  </script>
+</body>
 </html>
