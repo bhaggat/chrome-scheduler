@@ -2,6 +2,7 @@ import { useState, useLayoutEffect } from "react";
 import "./SchedulerForm.css";
 import { isDev } from "./content";
 import { getFormDefaults, saveFormDefaults } from "./utils";
+import { toast } from "react-hot-toast";
 
 export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
   const [title, setTitle] = useState("");
@@ -88,6 +89,28 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
   }, [scheduler]);
 
   const handleSubmit = () => {
+    const trimmedTitle = title.trim();
+    const trimmedUrl = url.trim();
+
+    if (!trimmedTitle) {
+      toast.error("Please enter a title");
+      return;
+    }
+    if (!trimmedUrl) {
+      toast.error("Please enter a URL");
+      return;
+    }
+    try {
+      new URL(trimmedUrl);
+    } catch {
+      toast.error("Please enter a valid URL, e.g. https://example.com");
+      return;
+    }
+    if (triggerType === "On Scheduled time" && !scheduledTime) {
+      toast.error("Please choose a scheduled time");
+      return;
+    }
+
     saveFormDefaults({
       type,
       triggerType,
@@ -97,8 +120,8 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
 
     onSubmit({
       id: scheduler?.id,
-      title,
-      url,
+      title: trimmedTitle,
+      url: trimmedUrl,
       afterTime: toUTCString(afterTime),
       beforeTime: toUTCString(beforeTime),
       scheduledTime: toUTCString(scheduledTime),
@@ -116,79 +139,81 @@ export default function SchedulerForm({ scheduler, onSubmit, onCancel }) {
           &times;
         </button>
         <h2>{scheduler?.id ? "Edit" : "Add"} Scheduler</h2>
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          autoFocus={true}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <input
-          type="url"
-          placeholder="URL"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option>Daily</option>
-          <option>Weekly</option>
-          <option>Monthly</option>
-          <option>Yearly</option>
-        </select>
-        <select
-          value={triggerType}
-          onChange={(e) => {
-            const val = e.target.value;
-            setTriggerType(val);
-            if (val === "On Scheduled time") {
-              setScheduledTime(getNextMinute());
-            }
-          }}
-        >
-          <option>On Scheduled time</option>
-          <option>Everytime on chrome open</option>
-          <option>Once per day</option>
-        </select>
-        {triggerType === "On Scheduled time" ? (
+        <div className="modal-body">
           <input
-            type="datetime-local"
-            placeholder="Scheduled Time"
-            value={scheduledTime}
-            onChange={(e) => setScheduledTime(e.target.value)}
+            type="text"
+            placeholder="Title"
+            value={title}
+            autoFocus={true}
+            onChange={(e) => setTitle(e.target.value)}
           />
-        ) : (
-          <>
+          <input
+            type="url"
+            placeholder="URL"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
+          <select value={type} onChange={(e) => setType(e.target.value)}>
+            <option>Daily</option>
+            <option>Weekly</option>
+            <option>Monthly</option>
+            <option>Yearly</option>
+          </select>
+          <select
+            value={triggerType}
+            onChange={(e) => {
+              const val = e.target.value;
+              setTriggerType(val);
+              if (val === "On Scheduled time") {
+                setScheduledTime(getNextMinute());
+              }
+            }}
+          >
+            <option>On Scheduled time</option>
+            <option>Everytime on chrome open</option>
+            <option>Once per day</option>
+          </select>
+          {triggerType === "On Scheduled time" ? (
             <input
               type="datetime-local"
-              placeholder="After Time"
-              value={afterTime}
-              onChange={(e) => setAfterTime(e.target.value)}
+              placeholder="Scheduled Time"
+              value={scheduledTime}
+              onChange={(e) => setScheduledTime(e.target.value)}
             />
+          ) : (
+            <>
+              <input
+                type="datetime-local"
+                placeholder="After Time"
+                value={afterTime}
+                onChange={(e) => setAfterTime(e.target.value)}
+              />
+              <input
+                type="datetime-local"
+                placeholder="Before Time"
+                value={beforeTime}
+                onChange={(e) => setBeforeTime(e.target.value)}
+              />
+            </>
+          )}
+          <div className="checkbox-container">
             <input
-              type="datetime-local"
-              placeholder="Before Time"
-              value={beforeTime}
-              onChange={(e) => setBeforeTime(e.target.value)}
+              type="checkbox"
+              id="should-pin"
+              checked={shouldPin}
+              onChange={(e) => setShouldPin(e.target.checked)}
             />
-          </>
-        )}
-        <div className="checkbox-container">
-          <input
-            type="checkbox"
-            id="should-pin"
-            checked={shouldPin}
-            onChange={(e) => setShouldPin(e.target.checked)}
-          />
-          <label htmlFor="should-pin">Should Pin</label>
-        </div>
-        <div className="checkbox-container">
-          <input
-            type="checkbox"
-            id="focus-on-open"
-            checked={focusOnOpen}
-            onChange={(e) => setFocusOnOpen(e.target.checked)}
-          />
-          <label htmlFor="focus-on-open">Focus on open</label>
+            <label htmlFor="should-pin">Should Pin</label>
+          </div>
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="focus-on-open"
+              checked={focusOnOpen}
+              onChange={(e) => setFocusOnOpen(e.target.checked)}
+            />
+            <label htmlFor="focus-on-open">Focus on open</label>
+          </div>
         </div>
         <div className="footer">
           <button

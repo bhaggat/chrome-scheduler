@@ -46,102 +46,104 @@ export default function SettingsForm({ onSubmit, onCancel }) {
         </button>
         <h2>Settings</h2>
 
-        <div className="checkbox-container">
+        <div className="modal-body">
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="enable-checkout-reminder"
+              checked={enabled}
+              onChange={(e) => setEnabled(e.target.checked)}
+            />
+            <label htmlFor="enable-checkout-reminder">
+              Show checkout reminder on Chrome close
+            </label>
+          </div>
+
           <input
-            type="checkbox"
-            id="enable-checkout-reminder"
-            checked={enabled}
-            onChange={(e) => setEnabled(e.target.checked)}
+            type="url"
+            placeholder="Checkout URL (e.g., https://shop.example.com/checkout)"
+            value={checkoutUrl}
+            onChange={(e) => setCheckoutUrl(e.target.value)}
           />
-          <label htmlFor="enable-checkout-reminder">
-            Show checkout reminder on Chrome close
-          </label>
+
+          <input
+            type="text"
+            placeholder="Reminder message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="Primary button text"
+            value={confirmText}
+            onChange={(e) => setConfirmText(e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="Secondary button text"
+            value={dismissText}
+            onChange={(e) => setDismissText(e.target.value)}
+          />
+
+          {isExtension && (
+            <div className="debug-controls">
+              <button
+                className="test-button"
+                onClick={() => {
+                  chrome.runtime.sendMessage(
+                    { action: "TEST_REMINDER" },
+                    (response) => {
+                      if (chrome.runtime.lastError) {
+                        alert("Error: " + chrome.runtime.lastError.message);
+                      } else if (response && !response.success) {
+                        alert("Failed: " + response.error);
+                      }
+                    },
+                  );
+                }}
+              >
+                Test Notification
+              </button>
+              <button
+                className="debug-toggle"
+                onClick={() => {
+                  const nextState = !showLogs;
+                  setShowLogs(nextState);
+                  if (nextState) {
+                    chrome.storage.local.get("debugLogs", (data) => {
+                      setLogs(data.debugLogs || []);
+                    });
+                  }
+                }}
+              >
+                {showLogs ? "Hide Logs" : "Show Debug Logs"}
+              </button>
+            </div>
+          )}
+
+          {showLogs && (
+            <div className="debug-logs">
+              {logs.length === 0 ? (
+                <div className="log-entry">No logs found</div>
+              ) : (
+                logs
+                  .slice()
+                  .reverse()
+                  .map((log, i) => (
+                    <div key={i} className="log-entry">
+                      <span className="log-time">
+                        {new Date(log.timestamp).toLocaleTimeString()}
+                      </span>
+                      <span className="log-msg">{log.message}</span>
+                      {log.data && <pre>{JSON.stringify(log.data, null, 2)}</pre>}
+                    </div>
+                  ))
+              )}
+            </div>
+          )}
         </div>
-
-        <input
-          type="url"
-          placeholder="Checkout URL (e.g., https://shop.example.com/checkout)"
-          value={checkoutUrl}
-          onChange={(e) => setCheckoutUrl(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Reminder message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Primary button text"
-          value={confirmText}
-          onChange={(e) => setConfirmText(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Secondary button text"
-          value={dismissText}
-          onChange={(e) => setDismissText(e.target.value)}
-        />
-
-        {isExtension && (
-          <div className="debug-controls">
-            <button
-              className="test-button"
-              onClick={() => {
-                chrome.runtime.sendMessage(
-                  { action: "TEST_REMINDER" },
-                  (response) => {
-                    if (chrome.runtime.lastError) {
-                      alert("Error: " + chrome.runtime.lastError.message);
-                    } else if (response && !response.success) {
-                      alert("Failed: " + response.error);
-                    }
-                  },
-                );
-              }}
-            >
-              Test Notification
-            </button>
-            <button
-              className="debug-toggle"
-              onClick={() => {
-                const nextState = !showLogs;
-                setShowLogs(nextState);
-                if (nextState) {
-                  chrome.storage.local.get("debugLogs", (data) => {
-                    setLogs(data.debugLogs || []);
-                  });
-                }
-              }}
-            >
-              {showLogs ? "Hide Logs" : "Show Debug Logs"}
-            </button>
-          </div>
-        )}
-
-        {showLogs && (
-          <div className="debug-logs">
-            {logs.length === 0 ? (
-              <div className="log-entry">No logs found</div>
-            ) : (
-              logs
-                .slice()
-                .reverse()
-                .map((log, i) => (
-                  <div key={i} className="log-entry">
-                    <span className="log-time">
-                      {new Date(log.timestamp).toLocaleTimeString()}
-                    </span>
-                    <span className="log-msg">{log.message}</span>
-                    {log.data && <pre>{JSON.stringify(log.data, null, 2)}</pre>}
-                  </div>
-                ))
-            )}
-          </div>
-        )}
 
         <div className="footer">
           <button

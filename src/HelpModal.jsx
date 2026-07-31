@@ -9,7 +9,7 @@ export default function HelpModal({ onCancel }) {
         </button>
         <h2>How to Use</h2>
         <div
-          className="help-content"
+          className="help-content modal-body"
           style={{ textAlign: "left", lineHeight: "1.6", color: "#4a5568" }}
         >
           <section style={{ marginBottom: "15px" }}>

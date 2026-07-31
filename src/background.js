@@ -88,45 +88,50 @@ const checkShouldTrigger = (schedule, isOpen) => {
   const now = new Date();
   const { type, afterTime, beforeTime, triggerType, scheduledTime } = schedule;
   const lastTriggeredKey = `lastTriggered_${schedule.id}`;
+  const lastTriggeredTargetKey = `lastTriggeredTarget_${schedule.id}`;
 
   return new Promise((resolve) => {
-    chrome.storage.local.get(lastTriggeredKey, (data) => {
+    chrome.storage.local.get([lastTriggeredKey, lastTriggeredTargetKey], (data) => {
       const lastTriggered = new Date(data[lastTriggeredKey] || 0);
+      const lastTriggeredTarget = data[lastTriggeredTargetKey];
       const currentTime = now.getHours() * 60 + now.getMinutes();
       const after = afterTime ? parseTime(afterTime) : 0;
       const before = beforeTime ? parseTime(beforeTime) : 1440;
 
-      const withinTimeWindow = currentTime >= after && currentTime <= before;
+      // Windows spanning midnight (e.g. 22:00-06:00) wrap around instead of never matching
+      const withinTimeWindow =
+        after <= before
+          ? currentTime >= after && currentTime <= before
+          : currentTime >= after || currentTime <= before;
 
       let shouldOpen = false;
 
       if (triggerType === "On Scheduled time") {
         const targetTime = scheduledTime ? parseTime(scheduledTime) : 0;
-        // Check if current time is within the same minute as target time
-        const isAtScheduledTime = currentTime === targetTime;
-        
+        // Use >= rather than an exact-minute match so a missed/delayed alarm tick
+        // (sleep, throttling, etc.) still catches up later the same day instead of
+        // silently skipping the whole period.
+        const isAtOrPastScheduledTime = currentTime >= targetTime;
+
         console.log(`Checking Schedule ${schedule.id}:`, {
           title: schedule.title,
           currentTime,
           targetTime,
-          isAtScheduledTime,
+          isAtOrPastScheduledTime,
           triggerType,
           lastTriggered: lastTriggered.toLocaleString()
         });
 
-        // Allow trigger if it's the exact time OR if we just opened Chrome and missed the time (catch-up)
-        // Only catch up if the scheduled time has passed today
-        const isCatchUp = isOpen && currentTime > targetTime;
-
-        if (isAtScheduledTime || isCatchUp) {
+        if (isAtOrPastScheduledTime) {
           switch (type) {
             case "Daily": {
               const ranToday = now.toDateString() === lastTriggered.toDateString();
-              // If it ran today, only run again if the scheduled time is different (user changed it)
+              // If it ran today, only run again if the scheduled time was changed since
+              // (compare against the target time recorded at the last firing, not the
+              // firing's wall-clock minute, since catch-up can fire a few minutes late)
               if (ranToday) {
-                 const lastTime = lastTriggered.getHours() * 60 + lastTriggered.getMinutes();
-                 shouldOpen = lastTime !== targetTime;
-                 console.log("Daily check:", { ranToday, lastTime, targetTime, shouldOpen });
+                 shouldOpen = lastTriggeredTarget !== targetTime;
+                 console.log("Daily check:", { ranToday, lastTriggeredTarget, targetTime, shouldOpen });
               } else {
                  shouldOpen = true;
               }
@@ -159,7 +164,9 @@ const checkShouldTrigger = (schedule, isOpen) => {
             shouldOpen = now - lastTriggered >= 7 * 24 * 60 * 60 * 1000;
             break;
           case "Monthly":
-            shouldOpen = now.getMonth() !== lastTriggered.getMonth();
+            shouldOpen =
+              now.getMonth() !== lastTriggered.getMonth() ||
+              now.getFullYear() !== lastTriggered.getFullYear();
             break;
           case "Yearly":
             shouldOpen = now.getFullYear() !== lastTriggered.getFullYear();
@@ -226,7 +233,13 @@ export const checkAndOpenUrl = async (isOpen = false) => {
       if (shouldTrigger) {
         openTab(schedule);
         const lastTriggeredKey = `lastTriggered_${schedule.id}`;
-        chrome.storage.local.set({ [lastTriggeredKey]: now.toISOString() });
+        const update = { [lastTriggeredKey]: now.toISOString() };
+        if (schedule.triggerType === "On Scheduled time") {
+          update[`lastTriggeredTarget_${schedule.id}`] = parseTime(
+            schedule.scheduledTime,
+          );
+        }
+        chrome.storage.local.set(update);
       }
     }
   } catch (error) {
