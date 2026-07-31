@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service - Scheduled Website Opener</title>
+  <meta name="description" content="Terms of Service for Scheduled Website Opener Chrome Extension." />
+  <link rel="icon" type="image/png" href="icons/icon16.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .legal-content {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      margin: 40px 0;
+      box-shadow: var(--shadow-lg);
+    }
+    .legal-content h1 { margin-bottom: 24px; }
+    .legal-content h2 { margin: 36px 0 16px; border-left: 4px solid var(--primary); padding-left: 12px; }
+    .legal-content p, .legal-content li { color: var(--text-muted); font-size: 1rem; margin-bottom: 16px; line-height: 1.7; }
+    .legal-content ul { padding-left: 24px; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <img src="icons/icon48.png" alt="Logo" onerror="this.onerror=null; this.src='icons/icon16.png';" />
+        </div>
+        <span class="brand-title">Scheduled Website Opener</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#features" class="nav-link">Features</a></li>
+        <li><a href="index.html#demo" class="nav-link">Live Demo</a></li>
+        <li><a href="index.html#developer" class="nav-link">Developer</a></li>
+        <li><a href="privacy.html" class="nav-link">Privacy Policy</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="index.html" class="btn btn-secondary btn-sm">← Back to Home</a>
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="legal-content">
+      <h1>📋 Terms of Service</h1>
+      <p>Last updated: July 2026</p>
+
+      <h2>1. Acceptance of Terms</h2>
+      <p>By installing and using the <strong>Scheduled Website Opener</strong> Chrome Extension, you agree to comply with and be bound by these Terms of Service.</p>
+
+      <h2>2. Use License</h2>
+      <p>Scheduled Website Opener is provided as a free productivity extension for personal and professional use. You may not reverse engineer, decompile, or attempt to extract source code for malicious re-distribution.</p>
+
+      <h2>3. Disclaimer of Warranties</h2>
+      <p>The extension is provided "as is" without warranty of any kind. While we strive for maximum reliability, the developer is not responsible for missed meetings, unexecuted schedules, or browser interruptions.</p>
+
+      <h2>4. Developer Contact</h2>
+      <p>For support and queries:</p>
+      <ul>
+        <li><strong>Developer Site:</strong> <a href="https://me.bhaggat.in/" target="_blank" rel="noopener" style="color: var(--primary);">https://me.bhaggat.in/</a></li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/bhaggat" target="_blank" rel="noopener" style="color: var(--primary);">https://github.com/bhaggat</a></li>
+        <li><strong>Email:</strong> <a href="mailto:dhruvbhagat98@gmail.com" style="color: var(--primary);">dhruvbhagat98@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 Scheduled Website Opener. Created by <a href="https://me.bhaggat.in/" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline;">Bhaggat</a>.</p>
+        <p><a href="index.html" style="color: var(--text-muted);">Back to Home</a> • <a href="privacy.html" style="color: var(--text-muted);">Privacy Policy</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const mobileNavToggle = document.getElementById('mobileNavToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (mobileNavToggle && navLinks) {
+      mobileNavToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileNavToggle.classList.toggle('open');
+        navLinks.classList.toggle('active');
+      });
+      document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+          mobileNavToggle.classList.remove('open');
+          navLinks.classList.remove('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

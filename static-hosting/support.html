@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support & Help Center - Scheduled Website Opener</title>
+  <meta name="description" content="Support and FAQ for Scheduled Website Opener Chrome Extension." />
+  <link rel="icon" type="image/png" href="icons/icon16.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .support-content {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      margin: 40px 0;
+      box-shadow: var(--shadow-lg);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <img src="icons/icon48.png" alt="Logo" onerror="this.onerror=null; this.src='icons/icon16.png';" />
+        </div>
+        <span class="brand-title">Scheduled Website Opener</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#features" class="nav-link">Features</a></li>
+        <li><a href="index.html#demo" class="nav-link">Live Demo</a></li>
+        <li><a href="index.html#developer" class="nav-link">Developer</a></li>
+        <li><a href="privacy.html" class="nav-link">Privacy Policy</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="index.html" class="btn btn-secondary btn-sm">← Back to Home</a>
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="support-content">
+      <h1>🆘 Support & Help Center</h1>
+      <p style="margin-bottom: 30px;">Need assistance or have feedback about Scheduled Website Opener?</p>
+
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <div class="faq-question">How do I schedule a website?</div>
+          <div class="faq-answer" style="display: block;">
+            Click on the extension icon in your Chrome toolbar, press "+ Add New Schedule", enter your website URL, pick recurrence frequency (Daily, Weekly, Monthly, Once), set time, and click Save.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Will websites open if my laptop is in sleep mode?</div>
+          <div class="faq-answer" style="display: block;">
+            If your computer is in sleep mode, Chrome will fire any pending alarms as soon as the system wakes up and Chrome resumes.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">How can I contact the developer?</div>
+          <div class="faq-answer" style="display: block;">
+            You can reach the developer via portfolio website <a href="https://me.bhaggat.in/" target="_blank" rel="noopener" style="color: var(--primary);">me.bhaggat.in</a> or email <a href="mailto:dhruvbhagat98@gmail.com" style="color: var(--primary);">dhruvbhagat98@gmail.com</a>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 Scheduled Website Opener. Created by <a href="https://me.bhaggat.in/" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline;">Bhaggat</a>.</p>
+        <p><a href="index.html" style="color: var(--text-muted);">Back to Home</a> • <a href="privacy.html" style="color: var(--text-muted);">Privacy Policy</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const mobileNavToggle = document.getElementById('mobileNavToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (mobileNavToggle && navLinks) {
+      mobileNavToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileNavToggle.classList.toggle('open');
+        navLinks.classList.toggle('active');
+      });
+      document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+          mobileNavToggle.classList.remove('open');
+          navLinks.classList.remove('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
