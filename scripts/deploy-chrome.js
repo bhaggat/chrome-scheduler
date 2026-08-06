@@ -27,6 +27,9 @@ const CLIENT_ID = process.env.CHROME_CLIENT_ID;
 const CLIENT_SECRET = process.env.CHROME_CLIENT_SECRET;
 const REFRESH_TOKEN = process.env.CHROME_REFRESH_TOKEN;
 
+console.log('EXTENSION_ID', {
+  CLIENT_ID,EXTENSION_ID,CLIENT_SECRET,REFRESH_TOKEN
+})
 // Validation
 if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
   console.error('❌ Error: Missing credentials!');
