@@ -250,6 +250,13 @@ chrome.runtime.onInstalled?.addListener(() => {
   console.log("Extension installed!", new Date().toISOString());
   chrome.alarms.clearAll();
   chrome.alarms.create("checkSchedulerAlarm", { periodInMinutes: 1 });
+  chrome.storage.local.get("reviewPromptState", (res) => {
+    if (!res.reviewPromptState?.installedAt) {
+      chrome.storage.local.set({
+        reviewPromptState: { installedAt: Date.now() },
+      });
+    }
+  });
 });
 
 console.log("chrome.runtime", new Date().toISOString(), chrome.runtime);

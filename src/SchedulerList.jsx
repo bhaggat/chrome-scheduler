@@ -1,5 +1,6 @@
 import "./SchedulerList.css";
 import { version } from "./content";
+import ReviewPrompt from "./ReviewPrompt";
 
 export default function SchedulerList({
   schedulers,
@@ -128,6 +129,7 @@ export default function SchedulerList({
       ) : (
         <div className="empty">No schedulers added yet</div>
       )}
+      <ReviewPrompt />
       <div className="version">Version {version}</div>
     </div>
   );

@@ -1,7 +1,7 @@
 {
   "name": "chrome-scheduler",
   "private": true,
-  "version": "2.0.20",
+  "version": "2.0.21",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,7 +16,11 @@
     "version:major": "node scripts/bump-version.js major",
     "deploy:static": "./scripts/deploy-static.sh",
     "auth": "node scripts/generate-token.js",
-    "deploy": "node scripts/deploy-chrome.js",
+    "deploy": "node scripts/deploy.js",
+    "deploy:patch": "node scripts/deploy.js patch",
+    "deploy:minor": "node scripts/deploy.js minor",
+    "deploy:major": "node scripts/deploy.js major",
+    "upload": "node scripts/deploy.js --skip-submit",
     "update:build": "npm run version:patch && npm run build",
     "build:deploy": "npm run version:patch && npm run build && npm run deploy"
   },
